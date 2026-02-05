@@ -1,0 +1,7 @@
+# Redirect all requests to public/index.php
+RewriteEngine On
+RewriteRule ^$ /ccsfp/public/index.php [L,R=301]
+
+
+
+    

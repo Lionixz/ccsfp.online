@@ -1,0 +1,220 @@
+:root {
+    --base-clr: #11121a;
+    --accent: #5e63ff;
+    --text-clr: #fff;
+    --secondary-text-clr: #b0b3c1;
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--base-clr);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    min-height: 100vh;
+}
+
+/* LOGIN CONTAINER */
+.login-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 98vw;
+    min-height: 98vh;
+    max-width: 1200px;
+    border-radius: 12px;
+    overflow: visible;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    background: #fff;
+}
+
+/* LEFT SIDE */
+.left-side {
+    flex: 1 1 50%;
+    /* takes 50% width on desktop */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-clr);
+    overflow: hidden;
+    min-height: 400px;
+}
+
+.left-side .bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.left-side .overlay-text {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    /* optional: dark overlay for readability */
+    border-radius: 12px;
+}
+
+.left-side .overlay-text h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.left-side .overlay-text p {
+    font-size: 18px;
+    color: var(--text-clr);
+}
+
+.left-side .top-img {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 100px;
+    height: auto;
+    z-index: 3;
+}
+
+/* RIGHT SIDE */
+.right-side {
+    flex: 1 1 50%;
+    /* takes 50% width on desktop */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    /* more padding for readability */
+    background-color: #fff;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    /* wider form for mobile */
+}
+
+.login-form h2 {
+    margin-bottom: 25px;
+    color: #11121a;
+    text-align: center;
+    font-size: 28px;
+}
+
+/* INPUTS */
+.login-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+    color: #444;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* BUTTONS */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.btn-login:hover {
+    opacity: 0.2;
+}
+
+.divider {
+    text-align: center;
+    margin: 15px 0;
+    color: #999;
+}
+
+.btn-google {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    border-radius: 6px;
+    background: #db4437;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.btn-google:hover {
+    opacity: 0.2;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        /* stack left on top, right below */
+        width: 95vw;
+        min-height: auto;
+    }
+
+    .left-side {
+        width: 100%;
+        min-height: 300px;
+    }
+
+    .left-side .overlay-text h1 {
+        font-size: 26px;
+    }
+
+    .left-side .overlay-text p {
+        font-size: 16px;
+    }
+
+    .left-side .top-img {
+        width: 70px;
+    }
+
+    .right-side {
+        width: 100%;
+        padding: 30px;
+    }
+
+    .login-form {
+        max-width: 90%;
+        /* take more space on mobile */
+    }
+
+    .login-form h2 {
+        font-size: 24px;
+    }
+
+    .login-form input,
+    .btn-login,
+    .btn-google {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
