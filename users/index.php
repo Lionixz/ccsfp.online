@@ -92,6 +92,7 @@ include('../middleware/cache.php');
                     </dl>
                 </div>
             </div>
+
         </div>
     </main>
     <?php includeAndCache('../includes/footer.php'); ?>
