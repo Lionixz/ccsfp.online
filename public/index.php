@@ -13,7 +13,7 @@ $loginUrl = $client->createAuthUrl();
     <meta charset="UTF-8">
     <title>Register Student Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../images/system/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../public/images/system/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/login.css">
 </head>
 
@@ -21,12 +21,12 @@ $loginUrl = $client->createAuthUrl();
     <div class="login-container">
         <!-- LEFT SIDE -->
         <div class="left-side">
-            <img src="../images/system/ccsfp-building.jpg" alt="building" class="bg-img">
+            <img src="../public/images/system/ccsfp-building.jpg" alt="building" class="bg-img">
             <div class="overlay-text">
                 <h1>Vision</h1>
                 <p>To be a leading institution of academic excellence that provides accessible and quality tertiary education</p>
             </div>
-            <img src="../images/system/logo.png" alt="Logo" class="top-img">
+            <img src="../public/images/system/logo.png" alt="Logo" class="top-img">
         </div>
 
         <!-- RIGHT SIDE -->
@@ -52,9 +52,9 @@ $loginUrl = $client->createAuthUrl();
                     Login with Google
                 </a>
 
-                <p class="info-text">
+                <div class="info-text">
                     Please login using your Google account to access your student portal.
-                </p>
+                </div>
             </div>
         </div>
     </div>

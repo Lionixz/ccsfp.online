@@ -10,19 +10,14 @@ include(__DIR__ . "/../config/db.php");
 <html lang="en">
 <?php includeAndCache('../includes/admin_head.php'); ?>
 
-
 <body>
     <?php includeAndCache('../includes/admin_sidebar.php'); ?>
 
     <main>
         <div class="container">
 
-
-
         </div>
     </main>
-
-
 
     <?php includeAndCache('../includes/admin_footer.php'); ?>
 </body>

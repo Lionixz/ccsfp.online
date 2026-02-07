@@ -9,3 +9,64 @@ CREATE TABLE `users` (
   `last_seen` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE applicants (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    last_name VARCHAR(100),
+    first_name VARCHAR(100),
+    middle_name VARCHAR(100),
+    age INT,
+    gender VARCHAR(10),
+    dob DATE,
+    birth_place VARCHAR(255),
+    marital_status VARCHAR(50),
+    contact VARCHAR(50),
+    religion VARCHAR(50),
+    email VARCHAR(100),
+    home_address VARCHAR(255),
+    relative_name VARCHAR(100),
+    relative_address VARCHAR(255),
+    college VARCHAR(255),
+    college_course VARCHAR(100),
+    college_address VARCHAR(255),
+    college_year VARCHAR(20),
+    shs VARCHAR(255),
+    shs_year YEAR,
+    shs_address VARCHAR(255),
+    shs_lrn VARCHAR(50),
+    shs_awards VARCHAR(255),
+    jhs VARCHAR(255),
+    jhs_year YEAR,
+    jhs_address VARCHAR(255),
+    jhs_awards VARCHAR(255),
+    primary_school VARCHAR(255),
+    primary_year YEAR,
+    skills VARCHAR(255),
+    sports VARCHAR(255),
+    father_name VARCHAR(100),
+    father_occupation VARCHAR(100),
+    father_employer VARCHAR(255),
+    mother_name VARCHAR(100),
+    mother_occupation VARCHAR(100),
+    mother_employer VARCHAR(255),
+    guardian_name VARCHAR(100),
+    guardian_occupation VARCHAR(100),
+    guardian_employer VARCHAR(255),
+    guardian_address VARCHAR(255),
+    guardian_contact VARCHAR(50),
+    family_income VARCHAR(50),
+    how_heard VARCHAR(50),
+    how_heard_other VARCHAR(100),
+    photo VARCHAR(255),   -- store file name
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE siblings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    applicant_id INT,
+    name VARCHAR(100),
+    education VARCHAR(100),
+    occupation VARCHAR(255),
+    FOREIGN KEY (applicant_id) REFERENCES applicants(id) ON DELETE CASCADE
+);

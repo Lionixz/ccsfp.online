@@ -171,6 +171,13 @@ body {
     opacity: 0.2;
 }
 
+.info-text {
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+    font-size: 14px;
+}
+
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
     .login-container {
