@@ -57,29 +57,29 @@ if (isset($_GET['code']) && !isset($_SESSION['access_token'])) {
             $_SESSION['user_name'] = $user->name;
             $_SESSION['user_picture'] = $user->picture;
 
-            $google_id = $mysqli->real_escape_string($user->id);
-            $name      = $mysqli->real_escape_string($user->name);
-            $email     = $mysqli->real_escape_string($user->email);
-            $picture   = $mysqli->real_escape_string($user->picture);
+            $google_id = $conn->real_escape_string($user->id);
+            $name      = $conn->real_escape_string($user->name);
+            $email     = $conn->real_escape_string($user->email);
+            $picture   = $conn->real_escape_string($user->picture);
 
             // Get current Manila time
             $now = date('Y-m-d H:i:s');
 
             // Check if user exists
-            $res = $mysqli->prepare("SELECT id, role FROM users WHERE google_id = ?");
+            $res = $conn->prepare("SELECT id, role FROM users WHERE google_id = ?");
             $res->bind_param("s", $google_id);
             $res->execute();
             $result = $res->get_result();
 
             if ($result->num_rows === 0) {
                 // Insert new user
-                $insertUser = $mysqli->prepare("
+                $insertUser = $conn->prepare("
                     INSERT INTO users (google_id, name, email, picture, role, last_seen)
                     VALUES (?, ?, ?, ?, 'user', ?)
                 ");
                 $insertUser->bind_param("sssss", $google_id, $name, $email, $picture, $now);
                 $insertUser->execute();
-                $user_id = $mysqli->insert_id;
+                $user_id = $conn->insert_id;
                 $role = 'user';
                 $insertUser->close();
             } else {
@@ -88,7 +88,7 @@ if (isset($_GET['code']) && !isset($_SESSION['access_token'])) {
                 $user_id = $row['id'];
 
                 // Update last_seen
-                $updateLastSeen = $mysqli->prepare("UPDATE users SET last_seen = ? WHERE google_id = ?");
+                $updateLastSeen = $conn->prepare("UPDATE users SET last_seen = ? WHERE google_id = ?");
                 $updateLastSeen->bind_param("ss", $now, $google_id);
                 $updateLastSeen->execute();
                 $updateLastSeen->close();
@@ -97,7 +97,7 @@ if (isset($_GET['code']) && !isset($_SESSION['access_token'])) {
 
             // Generate session token
             $session_token = bin2hex(random_bytes(32));
-            $updateToken = $mysqli->prepare("UPDATE users SET session_token = ? WHERE google_id = ?");
+            $updateToken = $conn->prepare("UPDATE users SET session_token = ? WHERE google_id = ?");
             $updateToken->bind_param("ss", $session_token, $google_id);
             $updateToken->execute();
             $updateToken->close();

@@ -1,6 +1,6 @@
 <?php
 $client = require __DIR__ . '/../config/config.php';
-$mysqli = require __DIR__ . '/../config/db.php';
+$conn = require __DIR__ . '/../config/db.php';
 
 session_start();
 
@@ -14,7 +14,7 @@ $google_id = $_SESSION['user_id'];
 $session_token = $_SESSION['session_token'];
 
 // Fetch user info from database
-$stmt = $mysqli->prepare("SELECT id, session_token, role FROM users WHERE google_id = ?");
+$stmt = $conn->prepare("SELECT id, session_token, role FROM users WHERE google_id = ?");
 $stmt->bind_param('s', $google_id);
 $stmt->execute();
 $stmt->bind_result($db_user_id, $db_session_token, $db_role);
@@ -29,7 +29,7 @@ if ($session_token !== $db_session_token) {
 
 // Update last_seen timestamp
 date_default_timezone_set('Asia/Manila');
-$stmt = $mysqli->prepare("UPDATE users SET last_seen = NOW() WHERE google_id = ?");
+$stmt = $conn->prepare("UPDATE users SET last_seen = NOW() WHERE google_id = ?");
 $stmt->bind_param('s', $google_id);
 $stmt->execute();
 $stmt->close();

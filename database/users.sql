@@ -1,23 +1,35 @@
-CREATE TABLE `users` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `google_id` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `picture` varchar(500) DEFAULT NULL,
-  `role` varchar(50) NOT NULL DEFAULT 'user',
-  `session_token` varchar(255) DEFAULT NULL,
-  `last_seen` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    google_id VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    picture VARCHAR(500),
+    role VARCHAR(50) NOT NULL DEFAULT 'user',
+    session_token VARCHAR(255) DEFAULT NULL,
+    last_seen DATETIME DEFAULT NULL,
+    is_blocked TINYINT(1) DEFAULT 0, 
+    blocked_until DATETIME DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+
+DROP TABLE IF EXISTS applicants;
 
 CREATE TABLE applicants (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    last_name VARCHAR(100),
-    first_name VARCHAR(100),
-    middle_name VARCHAR(100),
+    users_id VARCHAR(255) NOT NULL,
+    course_first VARCHAR(100) NOT NULL,
+    course_second VARCHAR(100) NOT NULL,
+    photo VARCHAR(255) DEFAULT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    middle_name VARCHAR(100) DEFAULT NULL,
     age INT,
-    gender VARCHAR(10),
+    gender VARCHAR(20),
     dob DATE,
     birth_place VARCHAR(255),
     marital_status VARCHAR(50),
@@ -25,48 +37,7 @@ CREATE TABLE applicants (
     religion VARCHAR(50),
     email VARCHAR(100),
     home_address VARCHAR(255),
-    relative_name VARCHAR(100),
+    relative_name VARCHAR(255),
     relative_address VARCHAR(255),
-    college VARCHAR(255),
-    college_course VARCHAR(100),
-    college_address VARCHAR(255),
-    college_year VARCHAR(20),
-    shs VARCHAR(255),
-    shs_year YEAR,
-    shs_address VARCHAR(255),
-    shs_lrn VARCHAR(50),
-    shs_awards VARCHAR(255),
-    jhs VARCHAR(255),
-    jhs_year YEAR,
-    jhs_address VARCHAR(255),
-    jhs_awards VARCHAR(255),
-    primary_school VARCHAR(255),
-    primary_year YEAR,
-    skills VARCHAR(255),
-    sports VARCHAR(255),
-    father_name VARCHAR(100),
-    father_occupation VARCHAR(100),
-    father_employer VARCHAR(255),
-    mother_name VARCHAR(100),
-    mother_occupation VARCHAR(100),
-    mother_employer VARCHAR(255),
-    guardian_name VARCHAR(100),
-    guardian_occupation VARCHAR(100),
-    guardian_employer VARCHAR(255),
-    guardian_address VARCHAR(255),
-    guardian_contact VARCHAR(50),
-    family_income VARCHAR(50),
-    how_heard VARCHAR(50),
-    how_heard_other VARCHAR(100),
-    photo VARCHAR(255),   -- store file name
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE siblings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    applicant_id INT,
-    name VARCHAR(100),
-    education VARCHAR(100),
-    occupation VARCHAR(255),
-    FOREIGN KEY (applicant_id) REFERENCES applicants(id) ON DELETE CASCADE
 );

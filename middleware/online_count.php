@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../config/db.php';
-$stmt = $mysqli->prepare("
+$stmt = $conn->prepare("
     SELECT COUNT(*) 
     FROM users 
     WHERE last_seen >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
