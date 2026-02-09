@@ -13,12 +13,7 @@ CREATE TABLE users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-
-
-
-
 DROP TABLE IF EXISTS applicants;
-
 CREATE TABLE applicants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     users_id VARCHAR(255) NOT NULL,
@@ -39,5 +34,39 @@ CREATE TABLE applicants (
     home_address VARCHAR(255),
     relative_name VARCHAR(255),
     relative_address VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    college VARCHAR(255),
+    college_course VARCHAR(100),
+    college_address VARCHAR(255),
+    college_year VARCHAR(20),
+    shs VARCHAR(255),
+    shs_year INT,
+    shs_address VARCHAR(255),
+    shs_lrn VARCHAR(50),
+    shs_awards VARCHAR(255),
+    jhs VARCHAR(255),
+    jhs_year INT,
+    jhs_address VARCHAR(255),
+    jhs_awards VARCHAR(255),
+    primary_school VARCHAR(255),
+    primary_year INT,
+    skills VARCHAR(255),
+    sports VARCHAR(255),
+    father_name VARCHAR(255),
+    father_occupation VARCHAR(255),
+    father_employer VARCHAR(255),
+    mother_name VARCHAR(255),
+    mother_occupation VARCHAR(255),
+    mother_employer VARCHAR(255),
+    guardian_name VARCHAR(255),
+    guardian_occupation VARCHAR(255),
+    guardian_employer VARCHAR(255),
+    guardian_address VARCHAR(255),
+    guardian_contact VARCHAR(50),
+    family_income VARCHAR(50),
+    how_heard VARCHAR(255),
+    sibling_names JSON,
+    sibling_educations JSON,
+    sibling_occupations JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

@@ -191,6 +191,10 @@ $endYear = $startYear + 1;
 
 
 
+
+
+
+
                         <tr>
                             <td colspan="24" style="text-align:left; font-weight:bold;">I. PERSONAL INFORMATION</td>
                         </tr>
@@ -266,6 +270,17 @@ $endYear = $startYear + 1;
                             <td colspan="3">12. Address:</td>
                             <td colspan="21"><input type="text" name="relative_address" class="form-input" style="width:100%;"></td>
                         </tr>
+
+
+
+
+
+
+
+
+
+
+
 
 
                         <!-- Section Title -->
@@ -353,6 +368,18 @@ $endYear = $startYear + 1;
                         </tr>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
                         <!-- Section Title -->
                         <tr>
                             <td colspan="24" style="text-align:left; font-weight:bold;">III. FAMILY BACKGROUND</td>
@@ -403,6 +430,21 @@ $endYear = $startYear + 1;
                             <td colspan="6"><input type="text" name="guardian_contact" class="form-input" style="width:100%;"></td>
                         </tr>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <!-- Section Title -->
                         <tr>
                             <td colspan="24" style="text-align:left; font-weight:bold;">IV. MONTHLY FAMILY INCOME</td>
@@ -438,6 +480,10 @@ $endYear = $startYear + 1;
                             <td colspan="6"></td>
                         </tr>
 
+
+
+
+                        
                         <!-- Section V: How did you know about City College? -->
                         <tr>
                             <td colspan="24" style="text-align:left; font-weight:bold;">V. How did you know about City College? (Shade the circle of your answer)</td>
@@ -473,6 +519,10 @@ $endYear = $startYear + 1;
                             </td>
 
                         </tr>
+
+
+
+
 
                         <!-- Section Title -->
                         <tr>

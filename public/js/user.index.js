@@ -1,3 +1,117 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+
+    // Fields
+    const photo = document.getElementById('photo');
+    const courseFirst = document.getElementById('course_first');
+    const courseSecond = document.getElementById('course_second');
+
+    // Required personal info fields
+    const requiredFields = [
+        'users_id', 'course_first', 'course_second', 'photo', 'last_name',
+        'first_name', 'middle_name', 'age', 'gender', 'dob',
+        'birth_place', 'marital_status', 'contact', 'religion', 'email',
+        'home_address', 'relative_name', 'relative_address', 'college', 'college_course',
+        'college_address', 'college_year', 'shs', 'shs_year', 'shs_address', 'shs_lrn',
+        'shs_awards', 'jhs', 'jhs_year', 'jhs_address', 'jhs_awards',
+        'primary_school', 'primary_year', 'skills', 'sports', 'father_name',
+        'father_occupation', 'father_employer', 'mother_name', 'mother_occupation', 'mother_employer',
+        'guardian_name', 'guardian_occupation', 'guardian_employer', 'guardian_address', 'guardian_contact',
+        'family_income', 'how_heard', 'sibling_names', 'sibling_educations', 'sibling_occupations'
+    ];
+
+    function showError(input, message) {
+        input.classList.add('error');
+        if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-msg')) {
+            const small = document.createElement('div');
+            small.className = 'error-msg';
+            small.innerText = message;
+            input.parentNode.appendChild(small);
+        }
+    }
+
+    function clearError(input) {
+        input.classList.remove('error');
+        if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-msg')) {
+            input.nextElementSibling.remove();
+        }
+    }
+
+    form.addEventListener('submit', function (e) {
+        let valid = true;
+
+        // Clear previous errors
+        [photo, courseFirst, courseSecond].forEach(clearError);
+        requiredFields.forEach(name => {
+            const input = form.querySelector(`[name="${name}"]`);
+            if (input) clearError(input);
+        });
+
+        // ===== PHOTO VALIDATION =====
+        if (!photo.files.length) {
+            valid = false;
+            showError(photo, 'Please upload your 1.5 x 1.5 colored picture.');
+        } else {
+            const file = photo.files[0];
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            const maxSize = 2 * 1024 * 1024; // 2MB
+
+            if (!allowedTypes.includes(file.type)) {
+                valid = false;
+                showError(photo, 'Only JPG or PNG images are allowed.');
+            } else if (file.size > maxSize) {
+                valid = false;
+                showError(photo, 'Image size must be less than 2MB.');
+            }
+        }
+
+        // ===== COURSE VALIDATION =====
+        if (!courseFirst.value) {
+            valid = false;
+            showError(courseFirst, 'First course choice is required.');
+        }
+        if (!courseSecond.value) {
+            valid = false;
+            showError(courseSecond, 'Second course choice is required.');
+        }
+
+        // ===== PERSONAL INFO VALIDATION =====
+        requiredFields.forEach(name => {
+            const input = form.querySelector(`[name="${name}"]`);
+            if (input && !input.value.trim()) {
+                valid = false;
+                showError(input, 'This field is required.');
+            }
+            
+        });
+
+        
+
+        // ===== EMAIL FORMAT CHECK =====
+        const email = form.querySelector('[name="email"]');
+        if (email.value) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value)) {
+                valid = false;
+                showError(email, 'Invalid email format.');
+            }
+        }
+
+        if (!valid) {
+            e.preventDefault();
+            // Scroll to first invalid field
+            const firstError = document.querySelector('.error');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+});
+
+
+
+
+
+
+
 function previewImage(event) {
     const input = event.target;
     const preview = document.getElementById('preview');
@@ -16,10 +130,31 @@ function previewImage(event) {
     }
 }
 
+// Get the select elements
+const courseFirst = document.getElementById('course_first');
+const courseSecond = document.getElementById('course_second');
 
+// Function to update second choice options
+function updateSecondChoice() {
+    const firstValue = courseFirst.value;
+    // Loop through second course options
+    for (let option of courseSecond.options) {
+        if (option.value === firstValue && firstValue !== "") {
+            option.disabled = true; // Disable the selected first choice
+            if (courseSecond.value === firstValue) {
+                courseSecond.value = ""; // Reset if already selected
+            }
+        } else {
+            option.disabled = false; // Enable other options
+        }
+    }
+}
 
+// Listen for changes on the first dropdown
+courseFirst.addEventListener('change', updateSecondChoice);
 
-
+// Optional: run on page load in case a value is preselected
+window.addEventListener('DOMContentLoaded', updateSecondChoice);
 
 
 function addSibling() {
@@ -77,34 +212,7 @@ function removeSibling(button) {
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
 
-    const radios = document.querySelectorAll('input[name="how_heard"]');
-    const otherRadio = document.getElementById('how_heard_other_radio');
-    const otherText = document.getElementById('how_heard_other_text');
 
-    if (!otherRadio || !otherText) return;
 
-    function updateOtherState() {
-        if (otherRadio.checked) {
-            otherText.disabled = false;
-            otherText.required = true;
-        } else {
-            otherText.disabled = true;
-            otherText.required = false;
-            otherText.value = '';
-        }
-    }
 
-    // When any radio changes
-    radios.forEach(radio => {
-        radio.addEventListener('change', updateOtherState);
-    });
-
-    // ⭐ KEY FIX: clicking text selects "Other"
-    otherText.addEventListener('focus', function () {
-        otherRadio.checked = true;
-        updateOtherState();
-    });
-
-});

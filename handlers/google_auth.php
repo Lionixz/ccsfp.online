@@ -6,117 +6,109 @@ session_start();
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/db.php';
 
-// Set PHP timezone globally
-date_default_timezone_set('Asia/Manila');
-
-function safeRedirect($url)
+function logoutAndRedirect($url = "index.php")
 {
+    session_unset();
+    session_destroy();
     header("Location: $url");
     exit;
 }
 
-// Already logged in?
-if (isset($_SESSION['access_token'])) {
+/**
+ * =========================================
+ * REUSE SESSION TOKEN IF EXISTS
+ * =========================================
+ */
+if (!empty($_SESSION['access_token'])) {
     $client->setAccessToken($_SESSION['access_token']);
 
     if ($client->isAccessTokenExpired()) {
-        $refreshToken = $client->getRefreshToken();
-        if ($refreshToken) {
-            try {
-                $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                $_SESSION['access_token'] = $client->getAccessToken();
-            } catch (Exception $e) {
-                error_log("Google Auth Refresh Error: " . $e->getMessage());
-                session_unset();
-                session_destroy();
-                safeRedirect("index.php");
-            }
-        } else {
-            session_unset();
-            session_destroy();
-            safeRedirect("index.php");
+        try {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $_SESSION['access_token'] = $client->getAccessToken();
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            logoutAndRedirect();
         }
     }
 }
 
-// Handle authorization flow
-if (isset($_GET['code']) && !isset($_SESSION['access_token'])) {
+/**
+ * =========================================
+ * GOOGLE CALLBACK HANDLER
+ * =========================================
+ */
+if (!empty($_GET['code']) && empty($_SESSION['access_token'])) {
+
     try {
         $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-
-        if (!isset($token['error'])) {
-            $client->setAccessToken($token['access_token']);
-            $_SESSION['access_token'] = $token['access_token'];
-
-            $oauth = new Oauth2($client);
-            $user = $oauth->userinfo->get();
-
-            // Save user info in session
-            $_SESSION['user_id'] = $user->id;
-            $_SESSION['user_email'] = $user->email;
-            $_SESSION['user_name'] = $user->name;
-            $_SESSION['user_picture'] = $user->picture;
-
-            $google_id = $conn->real_escape_string($user->id);
-            $name      = $conn->real_escape_string($user->name);
-            $email     = $conn->real_escape_string($user->email);
-            $picture   = $conn->real_escape_string($user->picture);
-
-            // Get current Manila time
-            $now = date('Y-m-d H:i:s');
-
-            // Check if user exists
-            $res = $conn->prepare("SELECT id, role FROM users WHERE google_id = ?");
-            $res->bind_param("s", $google_id);
-            $res->execute();
-            $result = $res->get_result();
-
-            if ($result->num_rows === 0) {
-                // Insert new user
-                $insertUser = $conn->prepare("
-                    INSERT INTO users (google_id, name, email, picture, role, last_seen)
-                    VALUES (?, ?, ?, ?, 'user', ?)
-                ");
-                $insertUser->bind_param("sssss", $google_id, $name, $email, $picture, $now);
-                $insertUser->execute();
-                $user_id = $conn->insert_id;
-                $role = 'user';
-                $insertUser->close();
-            } else {
-                $row = $result->fetch_assoc();
-                $role = $row['role'];
-                $user_id = $row['id'];
-
-                // Update last_seen
-                $updateLastSeen = $conn->prepare("UPDATE users SET last_seen = ? WHERE google_id = ?");
-                $updateLastSeen->bind_param("ss", $now, $google_id);
-                $updateLastSeen->execute();
-                $updateLastSeen->close();
-            }
-            $res->close();
-
-            // Generate session token
-            $session_token = bin2hex(random_bytes(32));
-            $updateToken = $conn->prepare("UPDATE users SET session_token = ? WHERE google_id = ?");
-            $updateToken->bind_param("ss", $session_token, $google_id);
-            $updateToken->execute();
-            $updateToken->close();
-
-            $_SESSION['session_token'] = $session_token;
-            $_SESSION['role'] = $role;
-
-            // Redirect based on role
-            if ($role === 'admin') {
-                safeRedirect("../admin/index.php");
-            } else {
-                safeRedirect("../users/index.php");
-            }
-        } else {
-            error_log("Google Token Error: " . $token['error']);
-            safeRedirect("../error.php");
+        if (!empty($token['error'])) {
+            throw new Exception($token['error']);
         }
+
+        $client->setAccessToken($token['access_token']);
+        $_SESSION['access_token'] = $token['access_token'];
+
+        $oauth = new Oauth2($client);
+        $user  = $oauth->userinfo->get();
+
+        $_SESSION['user_id']      = $user->id;
+        $_SESSION['user_email']   = $user->email;
+        $_SESSION['user_name']    = $user->name;
+        $_SESSION['user_picture'] = $user->picture;
+
+        $now = date('Y-m-d H:i:s');
+
+        // Check existing user
+        $stmt = $conn->prepare("SELECT id, role FROM users WHERE google_id = ?");
+        $stmt->bind_param("s", $user->id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        if ($res->num_rows === 0) {
+            $role = 'user';
+            $stmt = $conn->prepare(
+                "INSERT INTO users (google_id, name, email, picture, role, last_seen)
+                 VALUES (?, ?, ?, ?, ?, ?)"
+            );
+            $stmt->bind_param(
+                "ssssss",
+                $user->id,
+                $user->name,
+                $user->email,
+                $user->picture,
+                $role,
+                $now
+            );
+            $stmt->execute();
+            $user_id = $conn->insert_id;
+        } else {
+            $row = $res->fetch_assoc();
+            $user_id = $row['id'];
+            $role = $row['role'];
+
+            $stmt = $conn->prepare(
+                "UPDATE users SET last_seen = ? WHERE google_id = ?"
+            );
+            $stmt->bind_param("ss", $now, $user->id);
+            $stmt->execute();
+        }
+
+        // Generate session token
+        $session_token = bin2hex(random_bytes(32));
+        $stmt = $conn->prepare(
+            "UPDATE users SET session_token = ? WHERE google_id = ?"
+        );
+        $stmt->bind_param("ss", $session_token, $user->id);
+        $stmt->execute();
+
+        $_SESSION['session_token'] = $session_token;
+        $_SESSION['role'] = $role;
+
+        header("Location: " . ($role === 'admin' ? "../admin/index.php" : "../users/index.php"));
+        exit;
     } catch (Exception $e) {
         error_log("Google Auth Error: " . $e->getMessage());
-        safeRedirect("../error.php");
+        logoutAndRedirect("../error.php");
     }
 }

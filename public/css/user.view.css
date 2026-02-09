@@ -1,27 +1,26 @@
+    .readonly-input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        pointer-events: none;
+        font-weight: bold;
+        color: #ffffff;
+    }
+    .photo-wrapper img {
+        width: 120px;
+        height: auto;
+        display: block;
+    }
+    .photo-wrapper {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    }
 
-
- /* Responsive */
- @media (max-width: 768px) {
-     .user-header {
-         flex-direction: column;
-         /* text-align: center; */
-         gap: 15px;
-     }
-
-     .user-avatar {
-         width: 80px;
-         height: 80px;
-     }
-
-     .user-info {
-         text-align: center;
-     }
-
-     .user-name {
-         font-size: 1.3rem;
-     }
- }
-
+.photo-wrapper img {
+    width: 120px;
+    height: auto;
+}
 
 
 
@@ -48,11 +47,11 @@
  }
 
  th {
-     background: #f0e6cc;
+     background: #ffffff;
  }
 
  .even {
-     background: #fbf8f0;
+     background: #ffffff;
  }
 
  .odd {
