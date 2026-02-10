@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
 
@@ -17,7 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
         'primary_school', 'primary_year', 'skills', 'sports', 'father_name',
         'father_occupation', 'father_employer', 'mother_name', 'mother_occupation', 'mother_employer',
         'guardian_name', 'guardian_occupation', 'guardian_employer', 'guardian_address', 'guardian_contact',
-        'family_income', 'how_heard', 'sibling_names', 'sibling_educations', 'sibling_occupations'
+        'family_income', 'how_heard',
+        
+        // 'how_heard_other_text',
+
+        'sibling_names', 'sibling_educations', 'sibling_occupations'
     ];
 
     function showError(input, message) {
@@ -36,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
             input.nextElementSibling.remove();
         }
     }
+
 
     form.addEventListener('submit', function (e) {
         let valid = true;
@@ -85,8 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
             
         });
 
-        
-
         // ===== EMAIL FORMAT CHECK =====
         const email = form.querySelector('[name="email"]');
         if (email.value) {
@@ -97,6 +101,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
+
+
+
         if (!valid) {
             e.preventDefault();
             // Scroll to first invalid field
@@ -106,29 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
-
-
-
-
-
-function previewImage(event) {
-    const input = event.target;
-    const preview = document.getElementById('preview');
-    const overlay = document.querySelector('.overlay-text');
-
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block'; // show the image
-            overlay.style.opacity = '0'; // hide overlay
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
 
 // Get the select elements
 const courseFirst = document.getElementById('course_first');
@@ -155,6 +139,54 @@ courseFirst.addEventListener('change', updateSecondChoice);
 
 // Optional: run on page load in case a value is preselected
 window.addEventListener('DOMContentLoaded', updateSecondChoice);
+
+
+function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('preview');
+    const overlay = document.querySelector('.overlay-text');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block'; // show the image
+            overlay.style.opacity = '0'; // hide overlay
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const howHeardOtherRadio = document.getElementById('how_heard_other_radio');
+    const howHeardOtherText = document.getElementById('how_heard_other_text');
+    const radioButtons = document.querySelectorAll('input[name="how_heard"]');
+
+    // Initially disable the text input
+    howHeardOtherText.disabled = true;
+
+    // Function to handle enabling/disabling the text input based on the selected radio button
+    function handleRadioSelection() {
+        // Check if "Other" radio button is selected
+        if (howHeardOtherRadio.checked) {
+            howHeardOtherText.disabled = false; // Enable the text input
+        } else {
+            howHeardOtherText.disabled = true; // Disable the text input
+            howHeardOtherText.value = ''; // Clear the text input when it's disabled
+        }
+    }
+
+    // Add event listeners to all radio buttons
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', handleRadioSelection);
+    });
+
+    // Call function on page load to ensure the initial state is correct
+    handleRadioSelection();
+});
+
 
 
 function addSibling() {
@@ -203,6 +235,19 @@ function removeSibling(button) {
     }
     row2.remove();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

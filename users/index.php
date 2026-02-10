@@ -168,6 +168,8 @@
         font-size: 13px;
         margin-top: 4px;
     }
+
+    
 </style>
 
 
@@ -479,15 +481,15 @@
                         <tr>
                             <td colspan="24" style="text-align:left; font-weight:bold;">V. How did you know about City College? (Shade the circle of your answer)</td>
                         </tr>
-                        <tr>
+                       <tr>
                             <td colspan="3">
                                 <label><input type="radio" name="how_heard" value="tarpaulin"> Tarpaulin</label>
                             </td>
                             <td colspan="4">
-                                <label><input type="radio" name="how_heard" value="word_of_mouth"> Word-of-mouth</label>
+                                <label><input type="radio" name="how_heard" value="word of mouth"> Word-of-mouth</label>
                             </td>
                             <td colspan="6">
-                                <label><input type="radio" name="how_heard" value="internet_social_media"> Internet/Social Media</label>
+                                <label><input type="radio" name="how_heard" value="internet social media"> Internet/Social Media</label>
                             </td>
 
                             <td colspan="11">
