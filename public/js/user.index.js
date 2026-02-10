@@ -18,11 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
         'primary_school', 'primary_year', 'skills', 'sports', 'father_name',
         'father_occupation', 'father_employer', 'mother_name', 'mother_occupation', 'mother_employer',
         'guardian_name', 'guardian_occupation', 'guardian_employer', 'guardian_address', 'guardian_contact',
-        'family_income', 'how_heard',
-        
-        // 'how_heard_other_text',
+        'family_income', 'how_heard','how_heard_other', 
+        'sibling_name[]', 'sibling_education[]', 'sibling_occupation[]'
 
-        'sibling_names', 'sibling_educations', 'sibling_occupations'
     ];
 
     function showError(input, message) {
@@ -100,8 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 showError(email, 'Invalid email format.');
             }
         }
-
-
 
 
         if (!valid) {
@@ -187,9 +183,19 @@ document.addEventListener('DOMContentLoaded', function () {
     handleRadioSelection();
 });
 
-
-
 function addSibling() {
+    const siblingNames = document.querySelectorAll('input[name="sibling_name[]"]');
+    const siblingEducations = document.querySelectorAll('input[name="sibling_education[]"]');
+    const siblingOccupations = document.querySelectorAll('input[name="sibling_occupation[]"]');
+
+    // Check if the previous sibling fields are filled out
+    for (let i = 0; i < siblingNames.length; i++) {
+        if (siblingNames[i].value.trim() === '' || siblingEducations[i].value.trim() === '' || siblingOccupations[i].value.trim() === '') {
+            alert('Please fill in all sibling details before adding another sibling.');
+            return; // Prevent adding more rows if validation fails
+        }
+    }
+
     const tbody = document.querySelector('table tbody');
     const addButtonRow = document.querySelector('.add-sibling-row');
 
@@ -224,40 +230,3 @@ function addSibling() {
     tbody.insertBefore(row1, addButtonRow);
     tbody.insertBefore(row2, addButtonRow);
 }
-
-// Remove both rows of a sibling
-function removeSibling(button) {
-    const row2 = button.closest('tr');
-    const row1 = row2.previousElementSibling;
-
-    if (row1 && row1.classList.contains('sibling-row')) {
-        row1.remove();
-    }
-    row2.remove();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

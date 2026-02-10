@@ -1,6 +1,6 @@
 cd C:\xampp\htdocs\ccsfp
 git status
 git add .
-git commit -m "still working on validation"
+git commit -m "validation only working on III. FAMILY BACKGROUND, the others is working Other (Please Specify):  enable and disable text input radio button"
 git push -u origin main
 
