@@ -36,7 +36,6 @@ class ComposerStaticInit4d1c2b10c00e8cf1d661023c50dd1d3a
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
             'PhpOption\\' => 10,
-            'Paymongo\\' => 9,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
         'M' => 
@@ -100,10 +99,6 @@ class ComposerStaticInit4d1c2b10c00e8cf1d661023c50dd1d3a
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
-        ),
-        'Paymongo\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/paymongo/paymongo-php/src',
         ),
         'ParagonIE\\ConstantTime\\' => 
         array (

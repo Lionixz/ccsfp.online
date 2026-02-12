@@ -1,0 +1,42 @@
+table {
+    width: 100%;
+    /* table takes full container width */
+    table-layout: fixed;
+    /* fixes column widths */
+    border-collapse: collapse;
+}
+
+td,
+th {
+    border: 1px solid #595959;
+    padding: 3px;
+    height: 25px;
+    /* text-align: center; */
+    /* optional */
+    overflow: hidden;
+    /* prevents text overflow */
+    white-space: nowrap;
+    /* keeps text in single line if needed */
+}
+
+th {
+    background: #ffffff;
+}
+
+
+.photo-wrapper img {
+    width: 120px;
+    height: auto;
+    display: block;
+}
+
+.photo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-wrapper img {
+    width: 120px;
+    height: auto;
+}

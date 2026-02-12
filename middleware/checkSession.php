@@ -2,7 +2,9 @@
 $client = require __DIR__ . '/../config/config.php';
 $conn = require __DIR__ . '/../config/db.php';
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start(); // start session only if none active
+}
 
 // Check if user session exists
 if (!isset($_SESSION['user_id'], $_SESSION['user_name'], $_SESSION['user_email'], $_SESSION['user_picture'], $_SESSION['session_token'])) {
@@ -27,13 +29,6 @@ if ($session_token !== $db_session_token) {
     exit;
 }
 
-// Update last_seen timestamp
-date_default_timezone_set('Asia/Manila');
-$stmt = $conn->prepare("UPDATE users SET last_seen = NOW() WHERE google_id = ?");
-$stmt->bind_param('s', $google_id);
-$stmt->execute();
-$stmt->close();
-
 // Store DB user ID in session if missing
-$_SESSION['db_user_id'] = $_SESSION['db_user_id'] ?? $db_user_id;
-$_SESSION['db_user_role'] = $_SESSION['db_user_role'] ?? $db_role;
+// $_SESSION['db_user_id'] = $_SESSION['db_user_id'] ?? $db_user_id;
+// $_SESSION['db_user_role'] = $_SESSION['db_user_role'] ?? $db_role;

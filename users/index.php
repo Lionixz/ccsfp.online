@@ -19,7 +19,7 @@
     $checkStmt->store_result();
 
     if ($checkStmt->num_rows > 0) {
-        header("Location: view.php");
+        header("Location: user_view.php");
         exit;
     }
     $checkStmt->close();
@@ -90,11 +90,11 @@
         /* ---------------- PHOTO ---------------- */
         $photo_path = null;
         if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === 0) {
-            $dir = '../public/uploads/';
+            $dir = '../public/images/uploads/';
             if (!is_dir($dir)) mkdir($dir, 0777, true);
             $file = time() . '_' . basename($_FILES['photo']['name']);
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $dir . $file)) {
-                $photo_path = 'uploads/' . $file;
+                $photo_path = '' . $file;
             }
         }
 
@@ -140,7 +140,7 @@
         );
 
         if ($stmt->execute()) {
-            header("Location: view.php");
+            header("Location: user_view.php");
             exit;
         } else {
             echo "<p style='color:red;'>Insert Error: {$stmt->error}</p>";
@@ -150,28 +150,10 @@
     }
 ?>
 
-
-
 <!DOCTYPE html>
 <html>
 <?php includeAndCache('../includes/head.php'); ?>
-<link rel="stylesheet" href="../public/css/user.index.css">
-
-<style>
-    .error {
-        border: 2px solid #e74c3c !important;
-        background-color: #fff5f5;
-    }
-
-    .error-msg {
-        color: #e74c3c;
-        font-size: 13px;
-        margin-top: 4px;
-    }
-
-    
-</style>
-
+<link rel="stylesheet" href="../public/css/user_index.css">
 
 <body>
     <?php includeAndCache('../includes/sidebar.php'); ?>
@@ -450,16 +432,16 @@
                         <!-- Row 1: First three options -->
                         <tr>
                             <td colspan="6">
-                                <label><input type="radio" name="family_income" value="219140_above"> ₱ 219,140 and above</label>
+                                <label><input type="radio" name="family_income" value="219140 above"> ₱ 219,140 and above</label>
                             </td>
                             <td colspan="6">
-                                <label><input type="radio" name="family_income" value="131483_219140"> ₱ 131,483 to ₱ 219,140</label>
+                                <label><input type="radio" name="family_income" value="131483 219140"> ₱ 131,483 to ₱ 219,140</label>
                             </td>
                             <td colspan="6">
-                                <label><input type="radio" name="family_income" value="76669_131484"> ₱ 76,669 to ₱ 131,484</label>
+                                <label><input type="radio" name="family_income" value="76669 131484"> ₱ 76,669 to ₱ 131,484</label>
                             </td>
                             <td colspan="6">
-                                <label><input type="radio" name="family_income" value="43828_76669"> ₱ 43,828 to ₱ 76,669</label>
+                                <label><input type="radio" name="family_income" value="43828 76669"> ₱ 43,828 to ₱ 76,669</label>
                             </td>
                         </tr>
 
@@ -551,14 +533,17 @@
                                 <button type="submit" class="btn-submit">Submit Application</button>
                             </td>
                         </tr>
+
+
+                       
+                        
                     </tbody>
                 </table>
             </form>
         </div>
     </main>
 
-
-    <script src="../public/js/user.index.js"></script>
+    <script src="../public/js/user_index.js"></script>
     <?php includeAndCache('../includes/footer.php'); ?>
 </body>
 
