@@ -1,154 +1,168 @@
 <?php
-    include('../middleware/checkSession.php');
-    include('../middleware/cache.php');
-    require_once '../config/db.php';
+include('../middleware/checkSession.php');
+include('../middleware/cache.php');
+require_once '../config/db.php';
 
-    $startYear = date("Y");
-    $endYear   = date("Y") + 1;
+$startYear = date("Y");
+$endYear   = date("Y") + 1;
 
-    // 1. Get logged-in user ID
-    $users_id = $_SESSION['user_id'] ?? null;
-    if (!$users_id) {
-        die("User not logged in.");
+$users_id = $_SESSION['user_id'] ?? null;
+if (!$users_id) {
+    die("User not logged in.");
+}
+
+/* ================================
+   1. FETCH EXISTING DATA
+================================ */
+$stmt = $conn->prepare("SELECT * FROM applicants WHERE users_id = ?");
+$stmt->bind_param("s", $users_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("No application found.");
+}
+
+$applicant = $result->fetch_assoc();
+$stmt->close();
+
+/* ================================
+   2. HANDLE UPDATE
+================================ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* PERSONAL INFO */
+    $course_first     = $_POST['course_first'] ?? '';
+    $course_second    = $_POST['course_second'] ?? '';
+    $last_name        = $_POST['last_name'] ?? '';
+    $first_name       = $_POST['first_name'] ?? '';
+    $middle_name      = $_POST['middle_name'] ?? '';
+    $age              = $_POST['age'] ?? null;
+    $gender           = $_POST['gender'] ?? '';
+    $dob              = $_POST['dob'] ?? null;
+    $birth_place      = $_POST['birth_place'] ?? '';
+    $marital_status   = $_POST['marital_status'] ?? '';
+    $contact          = $_POST['contact'] ?? '';
+    $religion         = $_POST['religion'] ?? '';
+    $email            = $_POST['email'] ?? '';
+    $home_address     = $_POST['home_address'] ?? '';
+    $relative_name    = $_POST['relative_name'] ?? '';
+    $relative_address = $_POST['relative_address'] ?? '';
+
+    /* SCHOLASTIC */
+    $college          = $_POST['college'] ?? '';
+    $college_course   = $_POST['college_course'] ?? '';
+    $college_address  = $_POST['college_address'] ?? '';
+    $college_year     = $_POST['college_year'] ?? '';
+    $shs              = $_POST['shs'] ?? '';
+    $shs_year         = $_POST['shs_year'] ?? null;
+    $shs_address      = $_POST['shs_address'] ?? '';
+    $shs_lrn          = $_POST['shs_lrn'] ?? '';
+    $shs_awards       = $_POST['shs_awards'] ?? '';
+    $jhs              = $_POST['jhs'] ?? '';
+    $jhs_year         = $_POST['jhs_year'] ?? null;
+    $jhs_address      = $_POST['jhs_address'] ?? '';
+    $jhs_awards       = $_POST['jhs_awards'] ?? '';
+    $primary_school   = $_POST['primary_school'] ?? '';
+    $primary_year     = $_POST['primary_year'] ?? null;
+    $skills           = $_POST['skills'] ?? '';
+    $sports           = $_POST['sports'] ?? '';
+
+    /* FAMILY */
+    $father_name       = $_POST['father_name'] ?? '';
+    $father_occupation = $_POST['father_occupation'] ?? '';
+    $father_employer   = $_POST['father_employer'] ?? '';
+    $mother_name       = $_POST['mother_name'] ?? '';
+    $mother_occupation = $_POST['mother_occupation'] ?? '';
+    $mother_employer   = $_POST['mother_employer'] ?? '';
+    $guardian_name       = $_POST['guardian_name'] ?? '';
+    $guardian_occupation = $_POST['guardian_occupation'] ?? '';
+    $guardian_employer   = $_POST['guardian_employer'] ?? '';
+    $guardian_address    = $_POST['guardian_address'] ?? '';
+    $guardian_contact    = $_POST['guardian_contact'] ?? '';
+
+    $family_income = $_POST['family_income'] ?? '';
+    $how_heard     = ($_POST['how_heard'] === 'other')
+        ? ($_POST['how_heard_other'] ?? '')
+        : ($_POST['how_heard'] ?? '');
+
+    $sibling_names       = json_encode($_POST['sibling_name'] ?? []);
+    $sibling_educations  = json_encode($_POST['sibling_education'] ?? []);
+    $sibling_occupations = json_encode($_POST['sibling_occupation'] ?? []);
+
+    /* PHOTO UPDATE */
+    $photo_path = $applicant['photo']; // keep old by default
+
+    if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === 0) {
+        $dir = '../public/uploads/';
+        if (!is_dir($dir)) mkdir($dir, 0777, true);
+
+        $file = time() . '_' . basename($_FILES['photo']['name']);
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $dir . $file)) {
+            $photo_path = 'uploads/' . $file;
+        }
     }
 
-    // 2. Prevent double registration
-    $checkStmt = $conn->prepare("SELECT id FROM applicants WHERE users_id = ?");
-    $checkStmt->bind_param("s", $users_id);
-    $checkStmt->execute();
-    $checkStmt->store_result();
+    /* ================================
+       UPDATE QUERY
+    ================================= */
+    $sql = "
+        UPDATE applicants SET
+            course_first=?, course_second=?, photo=?,
+            last_name=?, first_name=?, middle_name=?,
+            age=?, gender=?, dob=?, birth_place=?, marital_status=?,
+            contact=?, religion=?, email=?, home_address=?,
+            relative_name=?, relative_address=?,
+            college=?, college_course=?, college_address=?, college_year=?,
+            shs=?, shs_year=?, shs_address=?, shs_lrn=?, shs_awards=?,
+            jhs=?, jhs_year=?, jhs_address=?, jhs_awards=?,
+            primary_school=?, primary_year=?, skills=?, sports=?,
+            father_name=?, father_occupation=?, father_employer=?,
+            mother_name=?, mother_occupation=?, mother_employer=?,
+            guardian_name=?, guardian_occupation=?, guardian_employer=?, guardian_address=?, guardian_contact=?,
+            family_income=?, how_heard=?,
+            sibling_names=?, sibling_educations=?, sibling_occupations=?
+        WHERE users_id=?
+    ";
 
-    if ($checkStmt->num_rows > 0) {
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) die("Prepare failed: " . $conn->error);
+
+    $stmt->bind_param(
+        str_repeat('s', 51),
+        $course_first, $course_second, $photo_path,
+        $last_name, $first_name, $middle_name,
+        $age, $gender, $dob, $birth_place, $marital_status,
+        $contact, $religion, $email, $home_address,
+        $relative_name, $relative_address,
+        $college, $college_course, $college_address, $college_year,
+        $shs, $shs_year, $shs_address, $shs_lrn, $shs_awards,
+        $jhs, $jhs_year, $jhs_address, $jhs_awards,
+        $primary_school, $primary_year, $skills, $sports,
+        $father_name, $father_occupation, $father_employer,
+        $mother_name, $mother_occupation, $mother_employer,
+        $guardian_name, $guardian_occupation, $guardian_employer, $guardian_address, $guardian_contact,
+        $family_income, $how_heard,
+        $sibling_names, $sibling_educations, $sibling_occupations,
+        $users_id
+    );
+
+    if ($stmt->execute()) {
         header("Location: view.php");
         exit;
+    } else {
+        echo "<p style='color:red;'>Update Error: {$stmt->error}</p>";
     }
-    $checkStmt->close();
 
-    // 3. Handle form submission
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        /* ---------------- I. PERSONAL INFO ---------------- */
-        $course_first     = $_POST['course_first'] ?? '';
-        $course_second    = $_POST['course_second'] ?? '';
-        $last_name        = $_POST['last_name'] ?? '';
-        $first_name       = $_POST['first_name'] ?? '';
-        $middle_name      = $_POST['middle_name'] ?? '';
-        $age              = $_POST['age'] ?? null;
-        $gender           = $_POST['gender'] ?? '';
-        $dob              = $_POST['dob'] ?? null;
-        $birth_place      = $_POST['birth_place'] ?? '';
-        $marital_status   = $_POST['marital_status'] ?? '';
-        $contact          = $_POST['contact'] ?? '';
-        $religion         = $_POST['religion'] ?? '';
-        $email            = $_POST['email'] ?? '';
-        $home_address     = $_POST['home_address'] ?? '';
-        $relative_name    = $_POST['relative_name'] ?? '';
-        $relative_address = $_POST['relative_address'] ?? '';
-
-        /* ---------------- II. SCHOLASTIC ---------------- */
-        $college          = $_POST['college'] ?? '';
-        $college_course   = $_POST['college_course'] ?? '';
-        $college_address  = $_POST['college_address'] ?? '';
-        $college_year     = $_POST['college_year'] ?? '';
-        $shs              = $_POST['shs'] ?? '';
-        $shs_year         = $_POST['shs_year'] ?? null;
-        $shs_address      = $_POST['shs_address'] ?? '';
-        $shs_lrn          = $_POST['shs_lrn'] ?? '';
-        $shs_awards       = $_POST['shs_awards'] ?? '';
-        $jhs              = $_POST['jhs'] ?? '';
-        $jhs_year         = $_POST['jhs_year'] ?? null;
-        $jhs_address      = $_POST['jhs_address'] ?? '';
-        $jhs_awards       = $_POST['jhs_awards'] ?? '';
-        $primary_school   = $_POST['primary_school'] ?? '';
-        $primary_year     = $_POST['primary_year'] ?? null;
-        $skills           = $_POST['skills'] ?? '';
-        $sports           = $_POST['sports'] ?? '';
-
-        /* ---------------- III. FAMILY ---------------- */
-        $father_name       = $_POST['father_name'] ?? '';
-        $father_occupation = $_POST['father_occupation'] ?? '';
-        $father_employer   = $_POST['father_employer'] ?? '';
-        $mother_name       = $_POST['mother_name'] ?? '';
-        $mother_occupation = $_POST['mother_occupation'] ?? '';
-        $mother_employer   = $_POST['mother_employer'] ?? '';
-        $guardian_name       = $_POST['guardian_name'] ?? '';
-        $guardian_occupation = $_POST['guardian_occupation'] ?? '';
-        $guardian_employer   = $_POST['guardian_employer'] ?? '';
-        $guardian_address    = $_POST['guardian_address'] ?? '';
-        $guardian_contact    = $_POST['guardian_contact'] ?? '';
-
-        /* ---------------- OTHER ---------------- */
-        $family_income = $_POST['family_income'] ?? '';
-        $how_heard     = ($_POST['how_heard'] === 'other')
-            ? ($_POST['how_heard_other'] ?? '')
-            : ($_POST['how_heard'] ?? '');
-
-        $sibling_names       = json_encode($_POST['sibling_name'] ?? []);
-        $sibling_educations  = json_encode($_POST['sibling_education'] ?? []);
-        $sibling_occupations = json_encode($_POST['sibling_occupation'] ?? []);
-
-        /* ---------------- PHOTO ---------------- */
-        $photo_path = null;
-        if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === 0) {
-            $dir = '../public/uploads/';
-            if (!is_dir($dir)) mkdir($dir, 0777, true);
-            $file = time() . '_' . basename($_FILES['photo']['name']);
-            if (move_uploaded_file($_FILES['photo']['tmp_name'], $dir . $file)) {
-                $photo_path = 'uploads/' . $file;
-            }
-        }
-
-        /* ---------------- INSERT ---------------- */
-        $sql = "
-            INSERT INTO applicants (
-                users_id, course_first, course_second, photo,
-                last_name, first_name, middle_name,
-                age, gender, dob, birth_place, marital_status,
-                contact, religion, email, home_address,
-                relative_name, relative_address,
-                college, college_course, college_address, college_year,
-                shs, shs_year, shs_address, shs_lrn, shs_awards,
-                jhs, jhs_year, jhs_address, jhs_awards,
-                primary_school, primary_year, skills, sports,
-                father_name, father_occupation, father_employer,
-                mother_name, mother_occupation, mother_employer,
-                guardian_name, guardian_occupation, guardian_employer, guardian_address, guardian_contact,
-                family_income, how_heard,
-                sibling_names, sibling_educations, sibling_occupations
-            ) VALUES (" . rtrim(str_repeat('?,', 51), ',') . ")
-        ";
-
-        $stmt = $conn->prepare($sql);
-        if (!$stmt) die("Prepare failed: " . $conn->error);
-
-        $stmt->bind_param(
-            str_repeat('s', 51),
-            $users_id, $course_first, $course_second, $photo_path,
-            $last_name, $first_name, $middle_name,
-            $age, $gender, $dob, $birth_place, $marital_status,
-            $contact, $religion, $email, $home_address,
-            $relative_name, $relative_address,
-            $college, $college_course, $college_address, $college_year,
-            $shs, $shs_year, $shs_address, $shs_lrn, $shs_awards,
-            $jhs, $jhs_year, $jhs_address, $jhs_awards,
-            $primary_school, $primary_year, $skills, $sports,
-            $father_name, $father_occupation, $father_employer,
-            $mother_name, $mother_occupation, $mother_employer,
-            $guardian_name, $guardian_occupation, $guardian_employer, $guardian_address, $guardian_contact,
-            $family_income, $how_heard,
-            $sibling_names, $sibling_educations, $sibling_occupations
-        );
-
-        if ($stmt->execute()) {
-            header("Location: view.php");
-            exit;
-        } else {
-            echo "<p style='color:red;'>Insert Error: {$stmt->error}</p>";
-        }
-
-        $stmt->close();
-    }
+    $stmt->close();
+}
 ?>
+
+
+
+
+
+
 
 
 
