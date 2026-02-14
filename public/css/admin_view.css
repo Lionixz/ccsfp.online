@@ -1,42 +1,90 @@
-table {
+/* Table Styling */
+#applicant-table {
     width: 100%;
-    /* table takes full container width */
-    table-layout: fixed;
-    /* fixes column widths */
     border-collapse: collapse;
+    table-layout: fixed;
+    /* Ensures uniform column widths */
 }
 
-td,
-th {
-    border: 1px solid #595959;
-    padding: 3px;
-    height: 25px;
-    /* text-align: center; */
-    /* optional */
-    overflow: hidden;
-    /* prevents text overflow */
-    white-space: nowrap;
-    /* keeps text in single line if needed */
+#applicant-table td,
+#applicant-table th {
+    border: 1px solid #ddd;
+    /* Add borders around table cells */
+    padding: 8px;
+    text-align: left;
+    vertical-align: middle;
 }
 
-th {
-    background: #ffffff;
+/* Ensure input fields stretch to fill the cell */
+.readonly-input {
+    width: 100%;
+    /* Make input field width fill the entire table cell */
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    word-wrap: break-word;
+    /* Ensure long words wrap inside input */
+    white-space: normal;
+    /* Allow text to wrap */
+    box-sizing: border-box;
+    /* Ensures padding is included in width */
 }
 
+/* Disabled input field styling */
+.readonly-input:disabled {
+    background-color: #f4f4f4;
+    /* Light background for disabled fields */
+    color: #333;
+    /* Dark text color */
+}
 
-.photo-wrapper img {
-    width: 120px;
+/* Image inside table cells */
+.photo-td img {
+    max-width: 100%;
     height: auto;
     display: block;
+    margin: 0 auto;
 }
 
-.photo-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Ensure headings stand out */
+th {
+    background-color: #f0f0f0;
+    font-weight: bold;
 }
 
-.photo-wrapper img {
-    width: 120px;
-    height: auto;
+/* Optional: Styling for table headers */
+table tr>td[colspan] {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Optional: Add some margin to the links at the end of the table */
+a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #007bff;
+    /* Blue color for links */
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+.pdf-btn {
+    margin-bottom: 20px;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.pdf-btn:hover {
+    background-color: #0056b3;
 }

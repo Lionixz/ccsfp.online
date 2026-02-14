@@ -1,146 +1,158 @@
-    .readonly-input {
-        width: 100%;
-        border: none;
-        background: transparent;
-        pointer-events: none;
-        font-weight: bold;
-        color: #ffffff;
-    }
+/* Table styling */
+table {
+    width: 100%;
+    /* table takes full container width */
+    table-layout: fixed;
+    /* fixes column widths */
+    border-collapse: collapse;
+}
 
-    .photo-wrapper img {
-        width: 120px;
-        height: auto;
-        display: block;
-    }
+td,
+th {
+    border: 1px solid #595959;
+    padding: 3px;
+    height: 25px;
+    /* text-align: center; */
+    /* optional */
+    overflow: hidden;
+    /* prevents text overflow */
+    white-space: nowrap;
+    /* keeps text in single line if needed */
+}
 
-    .photo-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+th {
+    background: #ffffff;
+}
 
-    .photo-wrapper img {
-        width: 120px;
-        height: auto;
-    }
+.even {
+    background: #ffffff;
+}
 
+.odd {
+    background: #fefcf9;
+}
 
+/* Table cell fixed size */
+.photo-td {
+    width: 200px;
+    height: 200px;
+    padding: 0;
+    vertical-align: top;
+}
 
+/* Wrapper fills entire td */
+.photo-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
 
-    table {
-        width: 100%;
-        /* table takes full container width */
-        table-layout: fixed;
-        /* fixes column widths */
-        border-collapse: collapse;
-    }
-
-    td,
-    th {
-        border: 1px solid #595959;
-        padding: 3px;
-        height: 25px;
-        /* text-align: center; */
-        /* optional */
-        overflow: hidden;
-        /* prevents text overflow */
-        white-space: nowrap;
-        /* keeps text in single line if needed */
-    }
-
-    th {
-        background: #ffffff;
-    }
-
-    .even {
-        background: #ffffff;
-    }
-
-    .odd {
-        background: #fefcf9;
-    }
+.photo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* THIS makes it cover */
+    object-position: center;
+    /* centers the image */
+    display: block;
+}
 
 
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
+.btn:hover {
+    transform: translateY(-2px);
+}
 
+/* View button */
+.btn-view {
+    background-color: #007bff;
+    color: white;
+}
 
+.btn-view:hover {
+    background-color: #0056b3;
+}
 
+/* Update button */
+.btn-update {
+    background-color: #28a745;
+    color: white;
+}
 
+.btn-update:hover {
+    background-color: #218838;
+}
 
+/* Delete button */
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
 
-    /* TD container stays fixed */
-    .photo-td {
-        padding: 0;
-        /* optional */
-        width: 200px;
-        /* fixed width */
-        height: 200px;
-        /* fixed height */
-        vertical-align: top;
-    }
+.btn-delete:hover {
+    background-color: #c82333;
+}
 
-    /* Wrapper to keep image inside */
-    .photo-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        /* ensures image doesn't escape */
-    }
+/* Submit button */
+.btn-submit {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 5px;
+    background-color: #28a745;
+    /* Green background */
+    color: white;
+    /* White text color */
+    font-size: 16px;
+    /* Font size */
+    border: none;
+    /* Remove default border */
+    border-radius: 8px;
+    /* Rounded corners */
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Soft shadow for depth */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    /* Clickable label container */
-    .preview-container {
-        display: block;
-        width: 100%;
-        height: 100%;
-        position: relative;
-        cursor: pointer;
-        border: 1px dashed #ccc;
-        border-radius: 4px;
-        background: #fefefe;
-    }
+/* Hover effect */
+.btn-submit:hover {
+    background-color: #218838;
+    /* Darker green on hover */
+    transform: translateY(-3px);
+    /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    /* Increase shadow on hover */
+}
 
-    /* Image covers the container completely */
-    .preview-img {
-        display: none;
-        /* hide at first */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        pointer-events: none;
-    }
+/* Active state (when button is clicked) */
+.btn-submit:active {
+    background-color: #1e7e34;
+    /* Even darker green */
+    transform: translateY(1px);
+    /* Slight press-down effect */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    /* Lighter shadow when active */
+}
 
-
-    /* Overlay text */
-    .overlay-text {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        /* justify-content: center;
-     align-items: center;
-     text-align: center; */
-        font-weight: bold;
-        font-size: 14px;
-        color: #555;
-        pointer-events: none;
-        background: rgba(255, 255, 255, 0.3);
-        padding: 5px;
-        box-sizing: border-box;
-        transition: opacity 0.3s ease;
-    }
-
-    /* Hide overlay when image exists */
-    .preview-img:not([src=""])+.overlay-text {
-        opacity: 0;
-    }
-
-    /* Hide file input */
-    .file-input {
-        display: none;
-    }
+/* Focus state (when button is focused) */
+.btn-submit:focus {
+    outline: none;
+    /* Remove default outline */
+    border: 2px solid #1c7430;
+    /* Green border on focus */
+}

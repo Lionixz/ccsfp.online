@@ -1,6 +1,5 @@
 cd C:\xampp\htdocs\ccsfp
 git status
 git add .
-git commit -m "Finish index.php all confirmaion and validation"
+git commit -m "admin CRUD"
 git push -u origin main
-

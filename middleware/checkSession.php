@@ -6,7 +6,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start(); // start session only if none active
 }
 
-// Check if user session exists
 if (!isset($_SESSION['user_id'], $_SESSION['user_name'], $_SESSION['user_email'], $_SESSION['user_picture'], $_SESSION['session_token'])) {
     header("Location: ../public/index.php");
     exit;
@@ -23,12 +22,10 @@ $stmt->bind_result($db_user_id, $db_session_token, $db_role);
 $stmt->fetch();
 $stmt->close();
 
-// Force logout if session token mismatch
+// Validate session token
 if ($session_token !== $db_session_token) {
-    header("Location: ../middleware/forced_logout.php");
+    session_destroy();
+    header("Location: ../public/index.php");
     exit;
 }
 
-// Store DB user ID in session if missing
-// $_SESSION['db_user_id'] = $_SESSION['db_user_id'] ?? $db_user_id;
-// $_SESSION['db_user_role'] = $_SESSION['db_user_role'] ?? $db_role;

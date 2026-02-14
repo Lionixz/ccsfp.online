@@ -149,10 +149,13 @@ document.addEventListener('DOMContentLoaded', function () {
         [photo, courseFirst, courseSecond, ...form.querySelectorAll('input, select')].forEach(clearError);
 
         // ===== PHOTO VALIDATION =====
-        if (!photo.files.length) {
+        // ===== PHOTO VALIDATION =====
+        const hasExistingPhoto = photo.dataset.existing === '1';
+
+        if (!photo.files.length && !hasExistingPhoto) {
             valid = false;
             showError(photo, 'Please upload your 1.5 x 1.5 colored picture.');
-        } else {
+        } else if (photo.files.length) {
             const file = photo.files[0];
             const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
             const maxSize = 2 * 1024 * 1024; // 2MB
@@ -164,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showError(photo, 'Image size must be less than 2MB.');
             }
         }
+
 
         // ===== COURSE VALIDATION =====
         if (!courseFirst.value) { valid = false; showError(courseFirst, 'First course choice is required.'); }

@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sibling_occupations_json = json_encode($_POST['sibling_occupation'] ?? []);
 
     /* ---------------- PHOTO ---------------- */
-    $photo_path = $applicant['photo']; // keep old by default
+    $photo_path = $applicant['photo']; 
 
  // Only process if a new file was actually uploaded
     if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === 0) {
@@ -168,8 +168,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 
-// --- HTML FORM (unchanged, except maybe the photo preview path) ---
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <?php includeAndCache('../includes/admin_head.php'); ?>
@@ -211,8 +212,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                              alt="Image Preview"
                                              class="preview-img"
                                              style="<?= !empty($applicant['photo']) ? 'display:block;' : 'display:none;' ?>">
-                                    </label>
-                                    <input type="file" name="photo" id="photo" accept="image/*" onchange="previewImage(event)" class="file-input">
+                                   <input type="file" 
+                                        name="photo" 
+                                        id="photo" 
+                                        accept="image/*" 
+                                        onchange="previewImage(event)" 
+                                        class="file-input"
+                                        data-existing="<?= !empty($applicant['photo']) ? '1' : '0' ?>">
                                 </div>
                             </td>
                         </tr>
@@ -456,10 +462,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </tr>
 
                         <!-- Submit -->
-                        <tr>
-                            <td colspan="24" style="text-align:center;">
-                                <button type="submit" class="btn-submit">Update Application</button>
-                            </td>
+                      <tr>
+        <td colspan="24" style="text-align:center;">
+            <a href="view.php?id=<?= $row['id'] ?>" class="btn btn-view">View</a>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit">Submit</button>
+
+            <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this applicant?');">Delete</a>
+        </td>
+    </tr>
+                        
+
+
                         </tr>
                     </tbody>
                 </table>
@@ -468,7 +483,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <script src="../public/js/admin_update.js"></script>
-  
     <?php includeAndCache('../includes/admin_footer.php'); ?>
 </body>
 </html>
