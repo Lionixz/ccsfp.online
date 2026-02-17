@@ -1,59 +1,60 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
+    const form = document.getElementById('insertForm');
 
-    // Fields
-    const photo = document.getElementById('photo');
+    // Field references
+    const photo = document.getElementById('photoInput');          // corrected ID
     const courseFirst = document.getElementById('course_first');
     const courseSecond = document.getElementById('course_second');
     const familyIncomeRadios = form.querySelectorAll('input[name="family_income"]');
     const howHeardRadios = form.querySelectorAll('input[name="how_heard"]');
-    const howHeardOtherRadio = document.getElementById('how_heard_other_radio');
     const howHeardOtherText = document.getElementById('how_heard_other_text');
-
-    // Required fields
-    const requiredFields = [
-        'users_id', 'course_first', 'course_second', 'photo', 'last_name',
-        'first_name', 'middle_name', 'age', 'gender', 'dob',
-        'birth_place', 'marital_status', 'contact', 'religion', 'email',
-        'home_address', 'relative_name', 'relative_address', 'college', 'college_course',
-        'college_address', 'college_year', 'shs', 'shs_year', 'shs_address', 'shs_lrn',
-        'shs_awards', 'jhs', 'jhs_year', 'jhs_address', 'jhs_awards',
-        'primary_school', 'primary_year', 'skills', 'sports', 'father_name',
-        'father_occupation', 'father_employer', 'mother_name', 'mother_occupation', 'mother_employer',
-        'guardian_name', 'guardian_occupation', 'guardian_employer', 'guardian_address', 'guardian_contact',
-        'family_income', 'how_heard', 'how_heard_other',
-        'sibling_name[]', 'sibling_education[]', 'sibling_occupation[]'
-    ];
 
     // ===== Helper Functions =====
     function showError(input, message) {
-        input.classList.add('error');
-        let container = input.parentNode;
-        if (input.id === 'photo') {
-            container = input.parentNode.querySelector('.preview-container'); // visible label
+        clearError(input);
+
+        // Determine container to place error message
+        let container;
+        if (input.type === 'radio') {
+            // For radio groups, find the parent container (td or div with radio-group class)
+            container = input.closest('.radio-group') || input.closest('td');
+        } else {
+            container = input.parentNode;
         }
 
-        if (!container.querySelector('.error-msg')) {
-            const small = document.createElement('div');
-            small.className = 'error-msg';
-            small.style.color = 'red';
-            small.style.fontSize = '0.9em';
-            small.style.marginTop = '5px';
-            small.innerText = message;
-            container.appendChild(small);
-        }
+        input.classList.add('error');
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-msg';
+        errorDiv.style.color = 'red';
+        errorDiv.style.fontSize = '0.9em';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.innerText = message;
+        container.appendChild(errorDiv);
     }
 
     function clearError(input) {
         input.classList.remove('error');
-        if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-msg')) {
-            input.nextElementSibling.remove();
+
+        // Remove error message from appropriate container
+        let container;
+        if (input.type === 'radio') {
+            container = input.closest('.radio-group') || input.closest('td');
+        } else {
+            container = input.parentNode;
         }
+
+        const errorMsg = container.querySelector('.error-msg');
+        if (errorMsg) errorMsg.remove();
     }
 
     function validateEmail(email) {
         const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return pattern.test(email);
+    }
+
+    function isRadioGroupValid(radioName) {
+        return form.querySelector(`input[name="${radioName}"]:checked`) !== null;
     }
 
     // ===== COURSE CHOICE LOGIC =====
@@ -87,15 +88,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ===== HOW HEARD "OTHER" LOGIC =====
     function handleHowHeard() {
-        if (howHeardOtherRadio.checked) {
+        const selectedHowHeard = form.querySelector('input[name="how_heard"]:checked');
+        if (selectedHowHeard && selectedHowHeard.value === 'others') {
             howHeardOtherText.disabled = false;
+            howHeardOtherText.required = true;   // optionally add HTML5 required
         } else {
             howHeardOtherText.disabled = true;
+            howHeardOtherText.required = false;
             howHeardOtherText.value = '';
         }
     }
     howHeardRadios.forEach(radio => radio.addEventListener('change', handleHowHeard));
-    handleHowHeard();
+    handleHowHeard(); // initial state
 
     // ===== SIBLING ADD/REMOVE =====
     window.addSibling = function () {
@@ -103,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const siblingEducations = document.querySelectorAll('input[name="sibling_education[]"]');
         const siblingOccupations = document.querySelectorAll('input[name="sibling_occupation[]"]');
 
+        // Check that all existing sibling fields are filled before adding new row
         for (let i = 0; i < siblingNames.length; i++) {
             if (!siblingNames[i].value.trim() || !siblingEducations[i].value.trim() || !siblingOccupations[i].value.trim()) {
                 alert('Please fill in all sibling details before adding another sibling.');
@@ -122,31 +127,46 @@ document.addEventListener('DOMContentLoaded', function () {
             <td colspan="5"><input type="text" name="sibling_education[]" class="form-input" style="width:100%;"></td>
         `;
 
+
         const row2 = document.createElement('tr');
         row2.classList.add('sibling-row');
         row2.innerHTML = `
-            <td colspan="9">Occupation / Employer / School Attending:</td>
-            <td colspan="12"><input type="text" name="sibling_occupation[]" class="form-input" style="width:100%;"></td>
-            <td colspan="3" style="text-align:center;"><button type="button" onclick="removeSibling(this)">Remove</button></td>
-        `;
+    <td colspan="9">Occupation / Employer / School Attending:</td>
+    <td colspan="12">
+        <input type="text" name="sibling_occupation[]" class="form-input" style="width:100%;">
+    </td>
+    <td colspan="3" style="text-align:center;">
+        <button type="button" class="remove-sibling-btn" onclick="removeSibling(this)">Remove</button>
+    </td>
+`;
+
 
         tbody.insertBefore(row1, addButtonRow);
         tbody.insertBefore(row2, addButtonRow);
-    }
+    };
 
     window.removeSibling = function (button) {
         const row1 = button.closest('tr').previousElementSibling;
         const row2 = button.closest('tr');
         row1.remove();
         row2.remove();
-    }
+    };
 
-    // ===== FORM SUBMISSION =====
+    // ===== FORM SUBMISSION VALIDATION =====
     form.addEventListener('submit', function (e) {
         let valid = true;
 
-        // Clear previous errors
-        [photo, courseFirst, courseSecond, ...form.querySelectorAll('input, select')].forEach(clearError);
+        // Clear previous errors on all relevant fields
+        const allFields = [
+            photo, courseFirst, courseSecond,
+            ...form.querySelectorAll('input:not([type="radio"]):not([type="file"])'),
+            ...form.querySelectorAll('select'),
+            ...form.querySelectorAll('textarea')
+        ];
+        allFields.forEach(clearError);
+        // Also clear radio group errors (they don't have individual clear, we'll clear via first radio)
+        familyIncomeRadios.forEach(radio => clearError(radio));
+        howHeardRadios.forEach(radio => clearError(radio));
 
         // ===== PHOTO VALIDATION =====
         if (!photo.files.length) {
@@ -166,32 +186,61 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // ===== COURSE VALIDATION =====
-        if (!courseFirst.value) { valid = false; showError(courseFirst, 'First course choice is required.'); }
-        if (!courseSecond.value) { valid = false; showError(courseSecond, 'Second course choice is required.'); }
+        if (!courseFirst.value) {
+            valid = false;
+            showError(courseFirst, 'First course choice is required.');
+        }
+        if (!courseSecond.value) {
+            valid = false;
+            showError(courseSecond, 'Second course choice is required.');
+        }
 
-        // ===== PERSONAL INFO VALIDATION =====
-        requiredFields.forEach(name => {
-            if (name === 'how_heard') {
-                const checked = form.querySelector('input[name="how_heard"]:checked');
-                if (!checked) { valid = false; showError(howHeardRadios[0], 'This field is required.'); }
-            } else if (name === 'how_heard_other') {
-                if (howHeardOtherRadio.checked && !howHeardOtherText.value.trim()) {
-                    valid = false; showError(howHeardOtherText, 'Please specify how you heard about us.');
-                }
-            } else if (name === 'family_income') {
-                const checked = form.querySelector('input[name="family_income"]:checked');
-                if (!checked) { valid = false; showError(familyIncomeRadios[0], 'This field is required.'); }
-            } else {
-                const input = form.querySelector(`[name="${name}"]`);
-                if (input && !input.value.trim()) { valid = false; showError(input, 'This field is required.'); }
+        // ===== PERSONAL INFO FIELDS =====
+        // List of required fields (excluding radio groups, file, and sibling arrays)
+        const requiredFieldNames = [
+            'last_name', 'first_name', 'age', 'gender', 'dob', 'birth_place',
+            'marital_status', 'contact', 'religion', 'email', 'home_address',
+            'relative_name', 'relative_address', 'college', 'college_course',
+            'college_address', 'college_year', 'shs', 'shs_year', 'shs_address',
+            'shs_lrn', 'shs_awards', 'jhs', 'jhs_year', 'jhs_address', 'jhs_awards',
+            'primary_school', 'primary_year', 'skills', 'sports', 'father_name',
+            'father_occupation', 'father_employer', 'mother_name', 'mother_occupation',
+            'mother_employer', 'guardian_name', 'guardian_occupation', 'guardian_employer',
+            'guardian_address', 'guardian_contact'
+        ];
+
+        requiredFieldNames.forEach(name => {
+            const input = form.querySelector(`[name="${name}"]`);
+            if (input && !input.value.trim()) {
+                valid = false;
+                showError(input, 'This field is required.');
             }
         });
 
-        // ===== EMAIL FORMAT CHECK =====
-        const email = form.querySelector('[name="email"]');
-        if (email.value && !validateEmail(email.value)) {
+        // ===== RADIO GROUPS =====
+        if (!isRadioGroupValid('family_income')) {
             valid = false;
-            showError(email, 'Invalid email format.');
+            // show error on the first radio of the group
+            showError(familyIncomeRadios[0], 'Please select your family income range.');
+        }
+
+        if (!isRadioGroupValid('how_heard')) {
+            valid = false;
+            showError(howHeardRadios[0], 'Please select how you heard about us.');
+        } else {
+            // If "others" selected, validate the text field
+            const selectedHowHeard = form.querySelector('input[name="how_heard"]:checked');
+            if (selectedHowHeard.value === 'others' && !howHeardOtherText.value.trim()) {
+                valid = false;
+                showError(howHeardOtherText, 'Please specify how you heard about us.');
+            }
+        }
+
+        // ===== EMAIL FORMAT CHECK =====
+        const emailInput = form.querySelector('[name="email"]');
+        if (emailInput && emailInput.value && !validateEmail(emailInput.value)) {
+            valid = false;
+            showError(emailInput, 'Invalid email format.');
         }
 
         if (!valid) {

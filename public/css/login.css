@@ -1,11 +1,20 @@
+/* ===== CSS Variables ===== */
 :root {
-    --base-clr: #11121a;
-    --accent: #5e63ff;
-    --text-clr: #fff;
-    --secondary-text-clr: #b0b3c1;
+    --primary-dark: #1a3e6f;
+    --primary: #3498db;
+    --primary-light: #2980b9;
+    --secondary-dark: #2c3e50;
+    --success: #27ae60;
+    --success-dark: #229954;
+    --gray-light: #f9fbfd;
+    --gray-border: #d1d9e6;
+    --text-dark: #2c3e50;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
 }
 
-/* Global Reset */
+/* ===== Global Reset ===== */
 * {
     margin: 0;
     padding: 0;
@@ -13,215 +22,293 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--base-clr);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ecf0f1;
     min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* LOGIN CONTAINER */
+/* ===== Main Container ===== */
 .login-container {
     display: flex;
-    flex-wrap: wrap;
-    width: 98vw;
-    min-height: 98vh;
-    max-width: 1200px;
-    border-radius: 12px;
-    overflow: visible;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    background: #fff;
-}
-
-/* LEFT SIDE */
-.left-side {
-    flex: 1 1 50%;
-    /* takes 50% width on desktop */
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--text-clr);
+    width: 1200px;
+    max-width: 90%;
+    min-height: 600px;
+    background: white;
+    border-radius: 15px;
     overflow: hidden;
-    min-height: 400px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-.left-side .bg-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* ===== Left Side ===== */
+.left-side {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-img {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
 }
 
-.left-side .overlay-text {
+.logo-container {
     position: absolute;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
     z-index: 2;
-    text-align: center;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.4);
-    /* optional: dark overlay for readability */
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: var(--shadow-sm);
 }
 
-.left-side .overlay-text h1 {
-    font-size: 32px;
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.school-name {
+    color: var(--primary-dark);
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.overlay-text {
+    position: absolute;
+    bottom: 160px;
+    left: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, rgba(26, 62, 111, 0.95), rgba(52, 152, 219, 0.95));
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    z-index: 2;
+    box-shadow: var(--shadow-sm);
+}
+
+.overlay-text h1 {
+    font-size: 1.8em;
     font-weight: 700;
     margin-bottom: 10px;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
 }
 
-.left-side .overlay-text p {
-    font-size: 18px;
-    color: var(--text-clr);
-}
-
-.left-side .top-img {
+.overlay-text h1::after {
+    content: '';
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100px;
-    height: auto;
-    z-index: 3;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: white;
+    border-radius: 3px;
 }
 
-/* RIGHT SIDE */
+.overlay-text p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    opacity: 0.95;
+}
+
+/* ===== Right Side ===== */
 .right-side {
-    flex: 1 1 50%;
-    /* takes 50% width on desktop */
+    flex: 1;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding: 40px;
-    /* more padding for readability */
-    background-color: #fff;
+    background: white;
 }
 
 .login-form {
     width: 100%;
     max-width: 400px;
-    /* wider form for mobile */
 }
 
 .login-form h2 {
-    margin-bottom: 25px;
-    color: #11121a;
-    text-align: center;
-    font-size: 28px;
+    color: var(--primary-dark);
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 30px;
+    position: relative;
+    padding-left: 15px;
 }
 
-/* INPUTS */
+.login-form h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--primary-dark), var(--primary));
+    border-radius: 3px;
+}
+
+/* ===== Form Elements ===== */
 .login-form label {
-    font-size: 14px;
-    margin-bottom: 5px;
     display: block;
-    color: #444;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    font-size: 0.95em;
 }
 
 .login-form input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    font-size: 1em;
+    transition: var(--transition);
+    background-color: var(--gray-light);
 }
 
-/* BUTTONS */
-.btn-login {
+.login-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    background-color: white;
+}
+
+/* ===== Buttons ===== */
+.btn-login,
+.btn-google {
     width: 100%;
-    padding: 12px;
+    padding: 12px 25px;
     border: none;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 6px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: 500;
-    transition: 0.3s;
-    font-size: 16px;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-sm);
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    margin-top: 10px;
 }
 
 .btn-login:hover {
-    opacity: 0.2;
-}
-
-.divider {
-    text-align: center;
-    margin: 15px 0;
-    color: #999;
+    background: linear-gradient(135deg, var(--primary-light), #1a6a9f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
 }
 
 .btn-google {
-    display: block;
-    text-align: center;
-    padding: 12px;
-    border-radius: 6px;
-    background: #db4437;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-    font-size: 16px;
+    background: linear-gradient(135deg, var(--success), var(--success-dark));
+    color: white;
 }
 
 .btn-google:hover {
-    opacity: 0.2;
+    background: linear-gradient(135deg, var(--success-dark), #1e8449);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
 }
 
-.info-text {
+/* ===== Divider ===== */
+.divider {
     text-align: center;
-    margin-top: 20px;
-    color: #555;
-    font-size: 14px;
+    margin: 20px 0;
+    position: relative;
+    color: #7f8c8d;
+    font-weight: 500;
 }
 
-/* MOBILE RESPONSIVE */
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: var(--gray-border);
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+/* ===== Info Text ===== */
+.info-text {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    text-align: center;
+    line-height: 1.5;
+    padding: 0 10px;
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
     .login-container {
         flex-direction: column;
-        /* stack left on top, right below */
-        width: 95vw;
-        min-height: auto;
+        max-width: 95%;
     }
 
     .left-side {
-        width: 100%;
         min-height: 300px;
     }
 
-    .left-side .overlay-text h1 {
-        font-size: 26px;
+    .overlay-text {
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        padding: 20px;
     }
 
-    .left-side .overlay-text p {
-        font-size: 16px;
+    .overlay-text h1 {
+        font-size: 1.4em;
     }
 
-    .left-side .top-img {
-        width: 70px;
+    .overlay-text p {
+        font-size: 0.9em;
+    }
+
+    .logo-container {
+        top: 15px;
+        left: 15px;
+        padding: 8px 15px;
+    }
+
+    .school-name {
+        font-size: 1em;
     }
 
     .right-side {
-        width: 100%;
-        padding: 30px;
-    }
-
-    .login-form {
-        max-width: 90%;
-        /* take more space on mobile */
+        padding: 30px 20px;
     }
 
     .login-form h2 {
-        font-size: 24px;
-    }
-
-    .login-form input,
-    .btn-login,
-    .btn-google {
-        font-size: 16px;
-        padding: 12px;
+        font-size: 1.6em;
     }
 }

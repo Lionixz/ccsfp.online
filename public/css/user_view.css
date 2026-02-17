@@ -1,144 +1,182 @@
-    .readonly-input {
-        width: 100%;
-        border: none;
-        background: transparent;
-        pointer-events: none;
-        font-weight: bold;
-        color: #ffffff;
-    }
-    .photo-wrapper img {
-        width: 120px;
-        height: auto;
-        display: block;
-    }
-    .photo-wrapper {
+/* Header Section */
+.container>div:first-child {
     display: flex;
-    justify-content: center; 
-    align-items: center;     
-    }
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #1a3e6f;
+}
 
-.photo-wrapper img {
-    width: 120px;
-    height: auto;
+h1 {
+    color: #1a3e6f;
+    font-size: 2.2em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-left: 15px;
+}
+
+h1::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 40px;
+    background: linear-gradient(to bottom, #1a3e6f, #3498db);
+    border-radius: 3px;
+}
+
+.btn-download {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+}
+
+.btn-download:hover {
+    background: linear-gradient(135deg, #229954, #1e8449);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
 }
 
 
 
 
- table {
-     width: 100%;
-     /* table takes full container width */
-     table-layout: fixed;
-     /* fixes column widths */
-     border-collapse: collapse;
- }
 
- td,
- th {
-     border: 1px solid #595959;
-     padding: 3px;
-     height: 25px;
-     /* text-align: center; */
-     /* optional */
-     overflow: hidden;
-     /* prevents text overflow */
-     white-space: nowrap;
-     /* keeps text in single line if needed */
- }
+/* Table Styles */
+#applicant-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
 
- th {
-     background: #ffffff;
- }
+#applicant-table td {
+    border: 1px solid #d1d9e6;
+    padding: 10px 8px;
+    vertical-align: middle;
+    font-size: 0.9em;
+}
 
- .even {
-     background: #ffffff;
- }
+/* Table Header Styling */
+#applicant-table tr:first-child td {
+    background: linear-gradient(135deg, #1a3e6f, #2c3e50);
+    color: white;
+    font-weight: bold;
+    border: none;
+}
 
- .odd {
-     background: #fefcf9;
- }
+#applicant-table tr:first-child td:first-child {
+    background: transparent;
+    padding: 5px;
+}
 
+#applicant-table tr:nth-child(2) td,
+#applicant-table tr:nth-child(3) td {
+    background: #f8fafd;
+}
 
+/* Section Headers */
+#applicant-table tr td[colspan="24"]:not(:first-child) {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+}
 
+/* Input Fields */
+.readonly-input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #d1d9e6;
+    border-radius: 4px;
+    background-color: #f9fbfd;
+    color: #2c3e50;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+}
 
+.readonly-input:disabled {
+    background-color: #f9fbfd;
+    cursor: default;
+    opacity: 1;
+    color: #2c3e50;
+}
 
+.readonly-input:hover:disabled {
+    background-color: #f0f4fa;
+    border-color: #b0c0d0;
+}
 
+/* Photo Cell */
+.photo-td {
+    background-color: #f8fafd;
+    padding: 5px !important;
+}
 
+.photo-wrapper {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ecf0f1;
+    border: 2px dashed #b0c0d0;
+}
 
+.photo-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
 
- /* TD container stays fixed */
- .photo-td {
-     padding: 0;
-     /* optional */
-     width: 200px;
-     /* fixed width */
-     height: 200px;
-     /* fixed height */
-     vertical-align: top;
- }
+.photo-wrapper span {
+    color: #7f8c8d;
+    font-style: italic;
+    font-size: 0.9em;
+}
 
- /* Wrapper to keep image inside */
- .photo-wrapper {
-     position: relative;
-     width: 100%;
-     height: 100%;
-     overflow: hidden;
-     /* ensures image doesn't escape */
- }
+/* Alternating Row Colors for Better Readability */
+#applicant-table tbody tr:nth-child(even) {
+    background-color: #fafcff;
+}
 
- /* Clickable label container */
- .preview-container {
-     display: block;
-     width: 100%;
-     height: 100%;
-     position: relative;
-     cursor: pointer;
-     border: 1px dashed #ccc;
-     border-radius: 4px;
-     background: #fefefe;
- }
+#applicant-table tbody tr:hover {
+    background-color: #f0f7ff;
+}
 
- /* Image covers the container completely */
- .preview-img {
-     display: none;
-     /* hide at first */
-     position: absolute;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     object-fit: cover;
-     pointer-events: none;
- }
+/* Label Styling */
+#applicant-table td:not(:has(input)) {
+    font-weight: 500;
+    color: #2c3e50;
+    background-color: #f2f6fc;
+}
 
-
- /* Overlay text */
- .overlay-text {
-     position: absolute;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     display: flex;
-     /* justify-content: center;
-     align-items: center;
-     text-align: center; */
-     font-weight: bold;
-     font-size: 14px;
-     color: #555;
-     pointer-events: none;
-     background: rgba(255, 255, 255, 0.3);
-     padding: 5px;
-     box-sizing: border-box;
-     transition: opacity 0.3s ease;
- }
-
- /* Hide overlay when image exists */
- .preview-img:not([src=""])+.overlay-text {
-     opacity: 0;
- }
-
- /* Hide file input */
- .file-input {
-     display: none;
- }
+/* Logo Styling */
+#applicant-table td img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

@@ -160,20 +160,22 @@ body {
     transition: rotate 150ms ease;
 }
 
-/* Main Content Styles */
+
 main {
-    padding: min(10px, 5%);
-    padding-bottom: 80px;
-    /* Prevent content overlap with mobile nav */
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f4f6f9;
+    transition: var(--transition);
 }
 
 .container {
-    border: 1px solid var(--line-clr);
-    border-radius: 1em;
-    margin-bottom: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
     padding: 10px;
 }
-
 
 /* ============================================================================================================ */
 /* ============================================================================================================ */

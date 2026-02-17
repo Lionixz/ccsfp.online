@@ -14,7 +14,7 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS applicants;
 CREATE TABLE applicants (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    users_id VARCHAR(255) NOT NULL,
+    google_id VARCHAR(255) NOT NULL,
     course_first VARCHAR(100) NOT NULL,
     course_second VARCHAR(100) NOT NULL,
     photo VARCHAR(255) DEFAULT NULL,

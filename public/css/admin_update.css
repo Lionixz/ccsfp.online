@@ -1,158 +1,356 @@
-/* Table styling */
-table {
-    width: 100%;
-    /* table takes full container width */
-    table-layout: fixed;
-    /* fixes column widths */
-    border-collapse: collapse;
+/* ===== CONTAINER & HEADER ===== */
+.container>div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #1a3e6f;
 }
 
-td,
-th {
-    border: 1px solid #595959;
-    padding: 3px;
-    height: 25px;
-    /* text-align: center; */
-    /* optional */
-    overflow: hidden;
-    /* prevents text overflow */
-    white-space: nowrap;
-    /* keeps text in single line if needed */
-}
-
-th {
-    background: #ffffff;
-}
-
-.even {
-    background: #ffffff;
-}
-
-.odd {
-    background: #fefcf9;
-}
-
-/* Table cell fixed size */
-.photo-td {
-    width: 200px;
-    height: 200px;
-    padding: 0;
-    vertical-align: top;
-}
-
-/* Wrapper fills entire td */
-.photo-wrapper {
-    width: 100%;
-    height: 100%;
+h1 {
+    color: #1a3e6f;
+    font-size: 2.2em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     position: relative;
-    overflow: hidden;
+    padding-left: 15px;
 }
 
-.photo-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* THIS makes it cover */
-    object-position: center;
-    /* centers the image */
-    display: block;
+h1::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 40px;
+    background: linear-gradient(to bottom, #1a3e6f, #3498db);
+    border-radius: 3px;
 }
 
+/* ===== BUTTONS ===== */
+.btn-container {
+    display: flex;
+    gap: 15px;
+}
 
-/* Button styles */
-.btn {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 5px;
-    border-radius: 4px;
-    text-decoration: none;
-    text-align: center;
-    font-size: 14px;
+.btn,
+.pdf-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.btn:hover {
-    transform: translateY(-2px);
-}
-
-/* View button */
-.btn-view {
-    background-color: #007bff;
-    color: white;
-}
-
-.btn-view:hover {
-    background-color: #0056b3;
-}
-
-/* Update button */
 .btn-update {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
 }
 
 .btn-update:hover {
-    background-color: #218838;
+    background: linear-gradient(135deg, #2980b9, #1a6a9f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
 }
 
-/* Delete button */
 .btn-delete {
-    background-color: #dc3545;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
     color: white;
 }
 
 .btn-delete:hover {
-    background-color: #c82333;
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
 }
 
-/* Submit button */
-.btn-submit {
-    display: inline-block;
-    padding: 12px 24px;
-    margin: 5px;
-    background-color: #28a745;
-    /* Green background */
+.pdf-btn {
+    background: linear-gradient(135deg, #27ae60, #229954);
     color: white;
-    /* White text color */
-    font-size: 16px;
-    /* Font size */
-    border: none;
-    /* Remove default border */
-    border-radius: 8px;
-    /* Rounded corners */
-    text-align: center;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Soft shadow for depth */
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover effect */
-.btn-submit:hover {
-    background-color: #218838;
-    /* Darker green on hover */
-    transform: translateY(-3px);
-    /* Slight lift effect */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    /* Increase shadow on hover */
+.pdf-btn:hover {
+    background: linear-gradient(135deg, #229954, #1e8449);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
 }
 
-/* Active state (when button is clicked) */
-.btn-submit:active {
-    background-color: #1e7e34;
-    /* Even darker green */
-    transform: translateY(1px);
-    /* Slight press-down effect */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-    /* Lighter shadow when active */
-}
-
-/* Focus state (when button is focused) */
-.btn-submit:focus {
+.btn:focus,
+.pdf-btn:focus {
     outline: none;
-    /* Remove default outline */
-    border: 2px solid #1c7430;
-    /* Green border on focus */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+/* ===== TABLE BASE ===== */
+#applicant-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.5s ease-out;
+}
+
+#applicant-table td {
+    border: 1px solid #d1d9e6;
+    padding: 10px 8px;
+    vertical-align: middle;
+    font-size: 0.9em;
+}
+
+/* Table Header */
+#applicant-table tr:first-child td {
+    background: linear-gradient(135deg, #1a3e6f, #2c3e50);
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+#applicant-table tr:first-child td:first-child {
+    background: transparent;
+    padding: 5px;
+}
+
+#applicant-table tr:nth-child(2) td,
+#applicant-table tr:nth-child(3) td {
+    background: #f8fafd;
+}
+
+/* Section Headers (colspan="24" inside tbody) */
+#applicant-table tr td[colspan="24"]:not(:first-child) {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+/* Alternating row colors */
+#applicant-table tbody tr:nth-child(even) {
+    background-color: #fafcff;
+}
+
+#applicant-table tbody tr:hover {
+    background-color: #f0f7ff;
+}
+
+/* Label cells (no input) */
+#applicant-table td:not(:has(input)) {
+    font-weight: 500;
+    color: #2c3e50;
+    background-color: #f2f6fc;
+}
+
+/* Logo inside table */
+#applicant-table td img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #d1d9e6;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #2c3e50;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.radio-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    color: #2c3e50;
+}
+
+/* ===== PHOTO CELL ===== */
+.photo-td {
+    background-color: #f8fafd;
+    padding: 5px !important;
+}
+
+.photo-wrapper {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ecf0f1;
+    border: 2px dashed #b0c0d0;
+}
+
+.photo-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.photo-wrapper span {
+    color: #7f8c8d;
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* ===== SIBLING CONTROLS ===== */
+.remove-sibling-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.remove-sibling-btn:hover {
+    background: #c0392b;
+}
+
+.add-sibling-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.add-sibling-btn:hover {
+    background: #229954;
+}
+
+/* ===== VALIDATION STATES ===== */
+.error {
+    border: 2px solid #e74c3c !important;
+    background-color: #fff3f3 !important;
+}
+
+.error-msg {
+    color: #e74c3c;
+    font-size: 0.85em;
+    margin-top: 3px;
+}
+
+
+/* (keep all your existing styles) */
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #d1d9e6;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #2c3e50;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.radio-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    color: #2c3e50;
+}
+
+.remove-sibling-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.remove-sibling-btn:hover {
+    background: #c0392b;
+}
+
+.add-sibling-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.add-sibling-btn:hover {
+    background: #229954;
+}
+
+.photo-wrapper {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.photo-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.overlay-text {
+    color: #999;
 }

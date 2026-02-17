@@ -15,18 +15,26 @@ $loginUrl = $client->createAuthUrl();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../public/images/system/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/login.css">
+   
 </head>
 
 <body>
     <div class="login-container">
-        <!-- LEFT SIDE -->
         <div class="left-side">
             <img src="../public/images/system/ccsfp-building.jpg" alt="building" class="bg-img">
-            <div class="overlay-text">
-                <h1>Vision</h1>
-                <p>To be a leading institution of academic excellence that provides accessible and quality tertiary education</p>
+
+            <!-- Logo and School Name Container -->
+            <div class="logo-container">
+                <img src="../public/images/system/logo.png" alt="Logo" class="logo-img">
+                <h1 class="school-name">City College of San Fernando – San Fernando Pampanga</h1>
             </div>
-            <img src="../public/images/system/logo.png" alt="Logo" class="top-img">
+
+            <div class="overlay-text">
+                <h1>VISION</h1>
+                <p>By 2040, the City College of San Fernando Pampanga is a leading institution of higher education advancing the quality of life of Fernandinos.</p>
+                <h1>MISSION</h1>
+                <p>To provide innovative and industry-responsive education, sustained by community engagement with robust institutional structure.</p>
+            </div>
         </div>
 
         <!-- RIGHT SIDE -->
@@ -62,3 +70,13 @@ $loginUrl = $client->createAuthUrl();
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="css/login.css">
