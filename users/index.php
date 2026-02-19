@@ -178,9 +178,230 @@ $howHeardOptions = [
 ?>
 
 <!DOCTYPE html>
-<html>
-<?php includeAndCache('../includes/head.php'); ?>
-<link rel="stylesheet" href="../public/css/user_index.css">
+<html lang="en">
+<head>
+    <?php includeAndCache('../includes/head.php'); ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <link rel="stylesheet" href="../public/css/user_index.css">
+    <style>
+        /* Additional mobile-specific fixes */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            
+            .container > div:first-child {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+                word-break: break-word;
+            }
+            
+            .btn-container {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            .btn, .pdf-btn {
+                width: 100%;
+                text-align: center;
+                padding: 15px 20px;
+            }
+            
+            #applicant-table {
+                display: block;
+                width: 100%;
+            }
+            
+            #applicant-table tbody {
+                display: block;
+                width: 100%;
+            }
+            
+            #applicant-table tr {
+                display: block;
+                width: 100%;
+                margin-bottom: 15px;
+                border: 1px solid #d1d9e6;
+                border-radius: 8px;
+                padding: 10px;
+            }
+            
+            #applicant-table td {
+                display: block;
+                width: 100% !important;
+                border: none;
+                padding: 8px 5px;
+                text-align: left;
+                box-sizing: border-box;
+            }
+            
+            #applicant-table td[colspan] {
+                width: 100% !important;
+            }
+            
+            #applicant-table tr:first-child td {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .photo-td {
+                padding: 10px !important;
+            }
+            
+            .photo-wrapper {
+                height: 200px;
+            }
+            
+            .form-input, .form-select {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 12px 10px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .radio-group label {
+                width: 100%;
+                padding: 8px 0;
+            }
+            
+            .sibling-row {
+                margin-bottom: 10px;
+                border-bottom: 1px dashed #d1d9e6;
+                padding-bottom: 10px;
+            }
+            
+            .add-sibling-row td {
+                text-align: center !important;
+            }
+            
+            .add-sibling-btn, .remove-sibling-btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 1rem;
+            }
+            
+            /* Adjust table headers */
+            #applicant-table tr td[colspan="24"] {
+                background: linear-gradient(135deg, #34495e, #2c3e50);
+                color: white;
+                padding: 15px 10px;
+                margin: 5px 0;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+            
+            /* Label styling */
+            #applicant-table td:not(:has(input)) {
+                background-color: transparent;
+                font-weight: 600;
+                padding-top: 12px;
+            }
+            
+            /* First row adjustments */
+            #applicant-table tr:first-child td:first-child {
+                width: 100%;
+                text-align: center;
+            }
+            
+            #applicant-table tr:first-child td img {
+                margin: 0 auto;
+            }
+            
+            /* Remove hover effect on mobile */
+            #applicant-table tbody tr:hover {
+                background-color: inherit;
+            }
+            
+            /* Fix for colspan elements */
+            #applicant-table td[colspan="24"] {
+                width: 100% !important;
+                margin: 10px 0;
+            }
+        }
+        
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+            
+            .container {
+                padding: 5px;
+            }
+            
+            #applicant-table tr {
+                padding: 8px;
+            }
+            
+            .photo-wrapper {
+                height: 180px;
+            }
+            
+            .form-input, .form-select {
+                font-size: 15px;
+                padding: 10px 8px;
+            }
+            
+            #applicant-table td {
+                padding: 6px 3px;
+            }
+            
+            .btn, .pdf-btn {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Landscape mode */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .photo-wrapper {
+                height: 150px;
+            }
+            
+            .btn-container {
+                flex-direction: row;
+            }
+            
+            .radio-group {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .radio-group label {
+                width: auto;
+            }
+        }
+        
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover, .pdf-btn:hover {
+                transform: none;
+            }
+            
+            .btn:active, .pdf-btn:active {
+                transform: scale(0.98);
+            }
+            
+            .form-input, .form-select {
+                -webkit-appearance: none;
+                appearance: none;
+            }
+        }
+    </style>
+</head>
 
 <body>
     <?php includeAndCache('../includes/sidebar.php'); ?>
@@ -189,48 +410,47 @@ $howHeardOptions = [
             <div>
                 <h1>Registration Form</h1>
                 <div class="btn-container">
-                    <button type="submit" form="insertForm" class="btn btn-update">Save Applicant</button>
+                    <button type="submit" form="insertForm" class="btn btn-update">Save Application </button>
                     <button type="button" class="pdf-btn" onclick="window.location.href='index.php'">Cancel</button>
                 </div>
             </div>
 
             <form id="insertForm" method="POST" action="" enctype="multipart/form-data">
-                <!-- No hidden id field -->
-
                 <table id="applicant-table">
                     <tbody>
+                        <!-- Header Row -->
                         <tr>
-                            <td colspan="5" rowspan="4">
-                                <img src="../public/images/system/logo.png" alt="CCSFP Logo" width="120">
+                            <td colspan="5" rowspan="4" class="logo-cell">
+                                <img src="../public/images/system/logo.png" alt="CCSFP Logo" width="120" class="mobile-logo">
                             </td>
-                            <td colspan="15">City College of San Fernando Pampanga</td>
-                            <td colspan="4">CCSFP Admission Form 001</td>
+                            <td colspan="15" class="school-name-header">City College of San Fernando Pampanga</td>
+                            <td colspan="4" class="form-number">CCSFP Admission Form 001</td>
                         </tr>
                         <tr>
-                            <td colspan="15">City of San Fernando, Pampanga</td>
-                            <td colspan="4" rowspan="2">Application No: <br> (New)</td>
+                            <td colspan="15" class="school-address">City of San Fernando, Pampanga</td>
+                            <td colspan="4" rowspan="2" class="app-no-cell">Application No: <br> (New)</td>
                         </tr>
                         <tr>
-                            <td colspan="15">Email: citycollegesfp@gmail.com</td>
+                            <td colspan="15" class="school-email">Email: citycollegesfp@gmail.com</td>
                         </tr>
                         <tr>
-                            <td colspan="15">APPLICATION FORM FOR FIRST YEAR</td>                
+                            <td colspan="15" class="form-title">APPLICATION FORM FOR FIRST YEAR</td>                
                             <td colspan="4" rowspan="4" class="photo-td">
                                 <div class="photo-wrapper">
                                     <img id="preview" src="" alt="Preview" style="display:none;">
                                     <span class="overlay-text">No Photo</span>
                                 </div>
-                                <input type="file" name="photo" id="photoInput" accept="image/jpeg,image/png" style="margin-top:5px; width:100%;">
+                                <input type="file" name="photo" id="photoInput" accept="image/jpeg,image/png" class="mobile-file-input">
                             </td>
                         </tr>
 
                         <!-- Courses -->
                         <tr>
-                            <td colspan="20">COURSE APPLIED FOR:</td>
+                            <td colspan="20" class="section-header">COURSE APPLIED FOR:</td>
                         </tr>
-                        <tr>
-                            <td colspan="5">1st Choice:</td>
-                            <td colspan="15">
+                        <tr class="course-row">
+                            <td colspan="5" class="label-cell">1st Choice:</td>
+                            <td colspan="15" class="input-cell">
                                 <select name="course_first" id="course_first" class="form-select">
                                     <option value="">Select First Choice</option>
                                     <?php foreach ($courses as $course): ?>
@@ -241,9 +461,9 @@ $howHeardOptions = [
                                 </select>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="5">2nd Choice:</td>
-                            <td colspan="15">
+                        <tr class="course-row">
+                            <td colspan="5" class="label-cell">2nd Choice:</td>
+                            <td colspan="15" class="input-cell">
                                 <select name="course_second" id="course_second" class="form-select">
                                     <option value="">Select Second Choice</option>
                                     <?php foreach ($courses as $course): ?>
@@ -256,20 +476,20 @@ $howHeardOptions = [
                         </tr>
 
                         <!-- I. PERSONAL INFO -->
-                        <tr><td colspan="24">I. PERSONAL INFORMATION</td></tr>
-                        <tr>
-                            <td colspan="3">Last Name:</td>
-                            <td colspan="5"><input type="text" name="last_name" class="form-input" value=""></td>
-                            <td colspan="3">First Name:</td>
-                            <td colspan="5"><input type="text" name="first_name" class="form-input" value=""></td>
-                            <td colspan="3">Middle Name:</td>
-                            <td colspan="5"><input type="text" name="middle_name" class="form-input" value=""></td>
+                        <tr><td colspan="24" class="section-header">I. PERSONAL INFORMATION</td></tr>
+                        <tr class="name-row">
+                            <td colspan="3" class="label-cell">Last Name:</td>
+                            <td colspan="5" class="input-cell"><input type="text" name="last_name" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">First Name:</td>
+                            <td colspan="5" class="input-cell"><input type="text" name="first_name" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Middle Name:</td>
+                            <td colspan="5" class="input-cell"><input type="text" name="middle_name" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="3">Age:</td>
-                            <td colspan="5"><input type="number" name="age" class="form-input" value=""></td>
-                            <td colspan="3">Gender:</td>
-                            <td colspan="5">
+                        <tr class="age-gender-row">
+                            <td colspan="3" class="label-cell">Age:</td>
+                            <td colspan="5" class="input-cell"><input type="number" name="age" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Gender:</td>
+                            <td colspan="5" class="input-cell">
                                 <select name="gender" class="form-select">
                                     <option value="">Select Gender</option>
                                     <option value="Male">Male</option>
@@ -277,14 +497,14 @@ $howHeardOptions = [
                                     <option value="Other">Other</option>
                                 </select>
                             </td>
-                            <td colspan="3">Date of Birth:</td>
-                            <td colspan="5"><input type="date" name="dob" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Date of Birth:</td>
+                            <td colspan="5" class="input-cell"><input type="date" name="dob" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="4">Place of Birth:</td>
-                            <td colspan="12"><input type="text" name="birth_place" class="form-input" value=""></td>
-                            <td colspan="4">Marital Status:</td>
-                            <td colspan="4">
+                        <tr class="birth-marital-row">
+                            <td colspan="4" class="label-cell">Place of Birth:</td>
+                            <td colspan="12" class="input-cell"><input type="text" name="birth_place" class="form-input" value=""></td>
+                            <td colspan="4" class="label-cell">Marital Status:</td>
+                            <td colspan="4" class="input-cell">
                                 <select name="marital_status" class="form-select">
                                     <option value="">Select</option>
                                     <option value="Single">Single</option>
@@ -294,121 +514,121 @@ $howHeardOptions = [
                                 </select>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="4">Contact Number/s:</td>
-                            <td colspan="5"><input type="text" name="contact" class="form-input" value=""></td>
-                            <td colspan="2">Religion:</td>
-                            <td colspan="3"><input type="text" name="religion" class="form-input" value=""></td>
-                            <td colspan="3">Email Address:</td>
-                            <td colspan="7"><input type="email" name="email" class="form-input" value=""></td>
+                        <tr class="contact-row">
+                            <td colspan="4" class="label-cell">Contact Number/s:</td>
+                            <td colspan="5" class="input-cell"><input type="text" name="contact" class="form-input" value=""></td>
+                            <td colspan="2" class="label-cell">Religion:</td>
+                            <td colspan="3" class="input-cell"><input type="text" name="religion" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Email Address:</td>
+                            <td colspan="7" class="input-cell"><input type="email" name="email" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="6">Complete Home Address:</td>
-                            <td colspan="18"><input type="text" name="home_address" class="form-input" value=""></td>
+                        <tr class="address-row">
+                            <td colspan="6" class="label-cell">Complete Home Address:</td>
+                            <td colspan="18" class="input-cell"><input type="text" name="home_address" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="6">Applicant is living with Relative:</td>
-                            <td colspan="18"><input type="text" name="relative_name" class="form-input" value=""></td>
+                        <tr class="relative-row">
+                            <td colspan="6" class="label-cell">Applicant is living with Relative:</td>
+                            <td colspan="18" class="input-cell"><input type="text" name="relative_name" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="6">Address:</td>
-                            <td colspan="18"><input type="text" name="relative_address" class="form-input" value=""></td>
+                        <tr class="relative-address-row">
+                            <td colspan="6" class="label-cell">Address:</td>
+                            <td colspan="18" class="input-cell"><input type="text" name="relative_address" class="form-input" value=""></td>
                         </tr>
 
                         <!-- II. SCHOLASTIC BACKGROUND -->
-                        <tr><td colspan="24">II. SCHOLASTIC BACKGROUND</td></tr>
-                        <tr>
-                            <td colspan="5">College (Undergraduate):</td>
-                            <td colspan="9"><input type="text" name="college" class="form-input" value=""></td>
-                            <td colspan="2">Course:</td>
-                            <td colspan="8"><input type="text" name="college_course" class="form-input" value=""></td>
+                        <tr><td colspan="24" class="section-header">II. SCHOLASTIC BACKGROUND</td></tr>
+                        <tr class="college-row">
+                            <td colspan="5" class="label-cell">College (Undergraduate):</td>
+                            <td colspan="9" class="input-cell"><input type="text" name="college" class="form-input" value=""></td>
+                            <td colspan="2" class="label-cell">Course:</td>
+                            <td colspan="8" class="input-cell"><input type="text" name="college_course" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="5">School Address:</td>
-                            <td colspan="9"><input type="text" name="college_address" class="form-input" value=""></td>
-                            <td colspan="6">Last Sem/Year Attended:</td>
-                            <td colspan="4"><input type="text" name="college_year" class="form-input" value=""></td>
+                        <tr class="college-address-row">
+                            <td colspan="5" class="label-cell">School Address:</td>
+                            <td colspan="9" class="input-cell"><input type="text" name="college_address" class="form-input" value=""></td>
+                            <td colspan="6" class="label-cell">Last Sem/Year Attended:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="college_year" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="6">Senior High School (Grade 12):</td>
-                            <td colspan="9"><input type="text" name="shs" class="form-input" value=""></td>
-                            <td colspan="4">Year Graduated:</td>
-                            <td colspan="5"><input type="number" name="shs_year" class="form-input" value=""></td>
+                        <tr class="shs-row">
+                            <td colspan="6" class="label-cell">Senior High School (Grade 12):</td>
+                            <td colspan="9" class="input-cell"><input type="text" name="shs" class="form-input" value=""></td>
+                            <td colspan="4" class="label-cell">Year Graduated:</td>
+                            <td colspan="5" class="input-cell"><input type="number" name="shs_year" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="4">School Address:</td>
-                            <td colspan="13"><input type="text" name="shs_address" class="form-input" value=""></td>
-                            <td colspan="2">LRN #:</td>
-                            <td colspan="5"><input type="text" name="shs_lrn" class="form-input" value=""></td>
+                        <tr class="shs-address-row">
+                            <td colspan="4" class="label-cell">School Address:</td>
+                            <td colspan="13" class="input-cell"><input type="text" name="shs_address" class="form-input" value=""></td>
+                            <td colspan="2" class="label-cell">LRN #:</td>
+                            <td colspan="5" class="input-cell"><input type="text" name="shs_lrn" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="6">Awards/Honors Received:</td>
-                            <td colspan="18"><input type="text" name="shs_awards" class="form-input" value=""></td>
+                        <tr class="shs-awards-row">
+                            <td colspan="6" class="label-cell">Awards/Honors Received:</td>
+                            <td colspan="18" class="input-cell"><input type="text" name="shs_awards" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="7">Junior High School (Grade 10):</td>
-                            <td colspan="9"><input type="text" name="jhs" class="form-input" value=""></td>
-                            <td colspan="4">Year Graduated:</td>
-                            <td colspan="4"><input type="number" name="jhs_year" class="form-input" value=""></td>
+                        <tr class="jhs-row">
+                            <td colspan="7" class="label-cell">Junior High School (Grade 10):</td>
+                            <td colspan="9" class="input-cell"><input type="text" name="jhs" class="form-input" value=""></td>
+                            <td colspan="4" class="label-cell">Year Graduated:</td>
+                            <td colspan="4" class="input-cell"><input type="number" name="jhs_year" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="4">School Address:</td>
-                            <td colspan="20"><input type="text" name="jhs_address" class="form-input" value=""></td>
+                        <tr class="jhs-address-row">
+                            <td colspan="4" class="label-cell">School Address:</td>
+                            <td colspan="20" class="input-cell"><input type="text" name="jhs_address" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="6">Awards/Honors Received:</td>
-                            <td colspan="18"><input type="text" name="jhs_awards" class="form-input" value=""></td>
+                        <tr class="jhs-awards-row">
+                            <td colspan="6" class="label-cell">Awards/Honors Received:</td>
+                            <td colspan="18" class="input-cell"><input type="text" name="jhs_awards" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="4">Primary:</td>
-                            <td colspan="12"><input type="text" name="primary_school" class="form-input" value=""></td>
-                            <td colspan="4">Year Graduated:</td>
-                            <td colspan="4"><input type="number" name="primary_year" class="form-input" value=""></td>
+                        <tr class="primary-row">
+                            <td colspan="4" class="label-cell">Primary:</td>
+                            <td colspan="12" class="input-cell"><input type="text" name="primary_school" class="form-input" value=""></td>
+                            <td colspan="4" class="label-cell">Year Graduated:</td>
+                            <td colspan="4" class="input-cell"><input type="number" name="primary_year" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="5">Special Skills/Talents:</td>
-                            <td colspan="19"><input type="text" name="skills" class="form-input" value=""></td>
+                        <tr class="skills-row">
+                            <td colspan="5" class="label-cell">Special Skills/Talents:</td>
+                            <td colspan="19" class="input-cell"><input type="text" name="skills" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="6">Interest Sports/Affiliations:</td>
-                            <td colspan="18"><input type="text" name="sports" class="form-input" value=""></td>
+                        <tr class="sports-row">
+                            <td colspan="6" class="label-cell">Interest Sports/Affiliations:</td>
+                            <td colspan="18" class="input-cell"><input type="text" name="sports" class="form-input" value=""></td>
                         </tr>
 
                         <!-- III. FAMILY BACKGROUND -->
-                        <tr><td colspan="24">III. FAMILY BACKGROUND</td></tr>
-                        <tr>
-                            <td colspan="3">Father:</td>
-                            <td colspan="4"><input type="text" name="father_name" class="form-input" value=""></td>
-                            <td colspan="3">Occupation:</td>
-                            <td colspan="4"><input type="text" name="father_occupation" class="form-input" value=""></td>
-                            <td colspan="6">Employer/Employer’s Address:</td>
-                            <td colspan="4"><input type="text" name="father_employer" class="form-input" value=""></td>
+                        <tr><td colspan="24" class="section-header">III. FAMILY BACKGROUND</td></tr>
+                        <tr class="father-row">
+                            <td colspan="3" class="label-cell">Father:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="father_name" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Occupation:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="father_occupation" class="form-input" value=""></td>
+                            <td colspan="6" class="label-cell">Employer/Address:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="father_employer" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="3">Mother:</td>
-                            <td colspan="4"><input type="text" name="mother_name" class="form-input" value=""></td>
-                            <td colspan="3">Occupation:</td>
-                            <td colspan="4"><input type="text" name="mother_occupation" class="form-input" value=""></td>
-                            <td colspan="6">Employer/Employer’s Address:</td>
-                            <td colspan="4"><input type="text" name="mother_employer" class="form-input" value=""></td>
+                        <tr class="mother-row">
+                            <td colspan="3" class="label-cell">Mother:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="mother_name" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Occupation:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="mother_occupation" class="form-input" value=""></td>
+                            <td colspan="6" class="label-cell">Employer/Address:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="mother_employer" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="3">Guardian:</td>
-                            <td colspan="4"><input type="text" name="guardian_name" class="form-input" value=""></td>
-                            <td colspan="3">Occupation:</td>
-                            <td colspan="4"><input type="text" name="guardian_occupation" class="form-input" value=""></td>
-                            <td colspan="6">Employer/Employer’s Address:</td>
-                            <td colspan="4"><input type="text" name="guardian_employer" class="form-input" value=""></td>
+                        <tr class="guardian-row">
+                            <td colspan="3" class="label-cell">Guardian:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="guardian_name" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Occupation:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="guardian_occupation" class="form-input" value=""></td>
+                            <td colspan="6" class="label-cell">Employer/Address:</td>
+                            <td colspan="4" class="input-cell"><input type="text" name="guardian_employer" class="form-input" value=""></td>
                         </tr>
-                        <tr>
-                            <td colspan="5">Guardian’s Address:</td>
-                            <td colspan="10"><input type="text" name="guardian_address" class="form-input" value=""></td>
-                            <td colspan="3">Contact Nos.:</td>
-                            <td colspan="6"><input type="text" name="guardian_contact" class="form-input" value=""></td>
+                        <tr class="guardian-contact-row">
+                            <td colspan="5" class="label-cell">Guardian’s Address:</td>
+                            <td colspan="10" class="input-cell"><input type="text" name="guardian_address" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Contact Nos.:</td>
+                            <td colspan="6" class="input-cell"><input type="text" name="guardian_contact" class="form-input" value=""></td>
                         </tr>
 
                         <!-- IV. MONTHLY FAMILY INCOME -->
-                        <tr><td colspan="24">IV. MONTHLY FAMILY INCOME</td></tr>
+                        <tr><td colspan="24" class="section-header">IV. MONTHLY FAMILY INCOME</td></tr>
                         <tr>
                             <td colspan="24">
                                 <div class="radio-group">
@@ -423,7 +643,7 @@ $howHeardOptions = [
                         </tr>
 
                         <!-- V. HOW DID YOU KNOW -->
-                        <tr><td colspan="24">V. How did you know about City College?</td></tr>
+                        <tr><td colspan="24" class="section-header">V. How did you know about City College?</td></tr>
                         <tr>
                             <td colspan="24">
                                 <div class="radio-group">
@@ -434,25 +654,25 @@ $howHeardOptions = [
                                         </label>
                                     <?php endforeach; ?>
                                 </div>
-                                <div style="margin-top:10px;">
+                                <div class="other-input" style="margin-top:10px;">
                                     <input type="text" name="how_heard_other" id="how_heard_other_text" class="form-input" placeholder="Please specify" value="" style="width:100%;" disabled>
                                 </div>
                             </td>
                         </tr>
 
-                        <!-- SIBLINGS (one default empty row) -->
-                        <tr><td colspan="24">SIBLINGS</td></tr>
+                        <!-- SIBLINGS -->
+                        <tr><td colspan="24" class="section-header">SIBLINGS</td></tr>
                         <!-- Sibling 1 (Name & Educational Attainment) -->
                         <tr class="sibling-row">
-                            <td colspan="3">Name:</td>
-                            <td colspan="11"><input type="text" name="sibling_name[]" class="form-input" value=""></td>
-                            <td colspan="5">Educational Attainment:</td>
-                            <td colspan="5"><input type="text" name="sibling_education[]" class="form-input" value=""></td>
+                            <td colspan="3" class="label-cell">Name:</td>
+                            <td colspan="11" class="input-cell"><input type="text" name="sibling_name[]" class="form-input" value=""></td>
+                            <td colspan="5" class="label-cell">Educational Attainment:</td>
+                            <td colspan="5" class="input-cell"><input type="text" name="sibling_education[]" class="form-input" value=""></td>
                         </tr>
                         <tr class="sibling-row">
-                            <td colspan="9">Occupation / Employer / School Attending:</td>
-                            <td colspan="12"><input type="text" name="sibling_occupation[]" class="form-input" value=""></td>
-                            <td colspan="3" style="text-align:center;">
+                            <td colspan="9" class="label-cell">Occupation/Employer/School:</td>
+                            <td colspan="12" class="input-cell"><input type="text" name="sibling_occupation[]" class="form-input" value=""></td>
+                            <td colspan="3" class="action-cell" style="text-align:center;">
                                 <button type="button" class="remove-sibling-btn" onclick="removeSibling(this)">Remove</button>
                             </td>
                         </tr>
@@ -467,9 +687,7 @@ $howHeardOptions = [
             </form>
         </div>
     </main>
-    <script src="../public/js/user_index.js"></script>
-    <script>
-        // No existing photo
+    <script src="../public/js/user_index.js">
         const hasExistingPhoto = false;
     </script>
 </body>

@@ -12,7 +12,7 @@ $loginUrl = $client->createAuthUrl();
 <head>
     <meta charset="UTF-8">
     <title>Register Student Account</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <link rel="icon" href="../public/images/system/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/login.css">
    
@@ -70,13 +70,3 @@ $loginUrl = $client->createAuthUrl();
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="css/login.css">

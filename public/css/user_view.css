@@ -1,4 +1,4 @@
-/* Header Section */
+/* ===== Base & Header ===== */
 .container>div:first-child {
     display: flex;
     justify-content: space-between;
@@ -51,11 +51,7 @@ h1::before {
     box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
 }
 
-
-
-
-
-/* Table Styles */
+/* ===== Table ===== */
 #applicant-table {
     width: 100%;
     border-collapse: collapse;
@@ -72,7 +68,7 @@ h1::before {
     font-size: 0.9em;
 }
 
-/* Table Header Styling */
+/* Header row (first) */
 #applicant-table tr:first-child td {
     background: linear-gradient(135deg, #1a3e6f, #2c3e50);
     color: white;
@@ -85,12 +81,13 @@ h1::before {
     padding: 5px;
 }
 
+/* Second and third rows */
 #applicant-table tr:nth-child(2) td,
 #applicant-table tr:nth-child(3) td {
     background: #f8fafd;
 }
 
-/* Section Headers */
+/* Section headers */
 #applicant-table tr td[colspan="24"]:not(:first-child) {
     background: linear-gradient(135deg, #34495e, #2c3e50);
     color: white;
@@ -100,10 +97,25 @@ h1::before {
     padding: 12px 10px;
     border: none;
     border-radius: 5px;
-    margin: 10px 0;
 }
 
-/* Input Fields */
+/* Alternating row colors */
+#applicant-table tbody tr:nth-child(even) {
+    background-color: #fafcff;
+}
+
+#applicant-table tbody tr:hover {
+    background-color: #f0f7ff;
+}
+
+/* Label cells (without input) */
+#applicant-table td:not(:has(input)) {
+    font-weight: 500;
+    color: #2c3e50;
+    background-color: #f2f6fc;
+}
+
+/* ===== Inputs ===== */
 .readonly-input {
     width: 100%;
     padding: 6px 10px;
@@ -127,7 +139,7 @@ h1::before {
     border-color: #b0c0d0;
 }
 
-/* Photo Cell */
+/* ===== Photo ===== */
 .photo-td {
     background-color: #f8fafd;
     padding: 5px !important;
@@ -157,26 +169,254 @@ h1::before {
     font-size: 0.9em;
 }
 
-/* Alternating Row Colors for Better Readability */
-#applicant-table tbody tr:nth-child(even) {
-    background-color: #fafcff;
-}
-
-#applicant-table tbody tr:hover {
-    background-color: #f0f7ff;
-}
-
-/* Label Styling */
-#applicant-table td:not(:has(input)) {
-    font-weight: 500;
-    color: #2c3e50;
-    background-color: #f2f6fc;
-}
-
-/* Logo Styling */
+/* ===== Logo ===== */
 #applicant-table td img {
     display: block;
     margin: 0 auto;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Mobile Responsive ===== */
+@media screen and (max-width: 768px) {
+    .container>div:first-child {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    h1 {
+        font-size: 1.6em;
+        padding-left: 12px;
+    }
+
+    h1::before {
+        height: 30px;
+    }
+
+    .btn-download {
+        width: 100%;
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 1em;
+    }
+
+    #applicant-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+    }
+
+    #applicant-table tbody {
+        display: table;
+        width: 100%;
+        min-width: 800px;
+    }
+
+    #applicant-table td {
+        padding: 8px 6px;
+        font-size: 0.85em;
+        word-break: break-word;
+    }
+
+    .readonly-input {
+        padding: 8px;
+        font-size: 0.9em;
+        min-height: 38px;
+    }
+
+    .photo-wrapper {
+        height: 120px;
+        min-width: 100px;
+    }
+
+    .photo-wrapper img {
+        max-height: 110px;
+    }
+
+    #applicant-table tr td[colspan="24"]:not(:first-child) {
+        padding: 10px 8px;
+        font-size: 0.95em;
+    }
+
+    #applicant-table td img {
+        width: 90px;
+    }
+
+    #applicant-table tr:first-child td {
+        font-size: 0.85em;
+    }
+
+    #applicant-table tr:first-child td:last-child {
+        line-height: 1.3;
+    }
+
+    #applicant-table tbody tr:nth-child(even) {
+        background-color: #f8faff;
+    }
+
+    #applicant-table tbody tr:hover {
+        background-color: inherit;
+    }
+
+    #applicant-table tbody tr:active {
+        background-color: #e8f0fe;
+    }
+
+    #applicant-table td:not(:has(input)) {
+        font-size: 0.85em;
+        white-space: nowrap;
+    }
+
+    /* Long content inputs */
+    #applicant-table td[colspan="24"] input,
+    #applicant-table td[colspan="18"] input,
+    #applicant-table td[colspan="20"] input {
+        font-size: 0.9em;
+    }
+
+    /* Family & sibling rows (keep text on one line) */
+    #applicant-table tr:has(td[colspan="3"]:contains("Father:")) td,
+    #applicant-table tr:has(td[colspan="3"]:contains("Mother:")) td,
+    #applicant-table tr:has(td[colspan="3"]:contains("Guardian:")) td,
+    #applicant-table tr:has(td[colspan="3"]:contains("Name:")) td {
+        white-space: nowrap;
+    }
+}
+
+/* Small mobile */
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    h1 {
+        font-size: 1.4em;
+        padding-left: 10px;
+    }
+
+    h1::before {
+        height: 25px;
+        width: 4px;
+    }
+
+    .btn-download {
+        padding: 12px 16px;
+        font-size: 0.95em;
+    }
+
+    #applicant-table tbody {
+        min-width: 700px;
+    }
+
+    #applicant-table td {
+        padding: 6px 4px;
+        font-size: 0.8em;
+    }
+
+    .readonly-input {
+        padding: 6px;
+        font-size: 0.85em;
+        min-height: 34px;
+    }
+
+    .photo-wrapper {
+        height: 100px;
+        min-width: 80px;
+    }
+
+    .photo-wrapper img {
+        max-height: 90px;
+    }
+
+    #applicant-table td img {
+        width: 75px;
+    }
+}
+
+/* Landscape */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    #applicant-table tbody {
+        min-width: 850px;
+    }
+
+    .photo-wrapper {
+        height: 110px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+}
+
+/* Tablet */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    #applicant-table {
+        font-size: 0.95em;
+    }
+
+    #applicant-table td {
+        padding: 8px 6px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .photo-wrapper {
+        height: 140px;
+    }
+}
+
+/* High DPI */
+@media screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+
+    #applicant-table td,
+    .readonly-input {
+        border-width: 0.5px;
+    }
+}
+
+/* Very small devices */
+@media screen and (max-width: 350px) {
+    #applicant-table tbody {
+        min-width: 650px;
+    }
+
+    h1 {
+        font-size: 1.2em;
+    }
+
+    #applicant-table td {
+        font-size: 0.75em;
+        padding: 5px 3px;
+    }
+
+    .readonly-input {
+        padding: 5px;
+        font-size: 0.8em;
+    }
+}
+
+/* Touch-friendly tap highlights */
+@media (hover: none) and (pointer: coarse) {
+    .btn-download {
+        -webkit-tap-highlight-color: rgba(39, 174, 96, 0.3);
+    }
+
+    #applicant-table td {
+        -webkit-tap-highlight-color: rgba(26, 62, 111, 0.1);
+    }
+}
+
+/* Print */
+@media print {
+    .btn-download {
+        display: none;
+    }
+
+    #applicant-table {
+        box-shadow: none;
+    }
 }

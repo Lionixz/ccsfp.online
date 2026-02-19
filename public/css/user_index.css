@@ -275,3 +275,432 @@ h1::before {
     font-size: 0.85em;
     margin-top: 3px;
 }
+
+
+
+/* Mobile Responsive Styles - Add to existing CSS */
+
+/* Tablet styles (768px - 1024px) */
+@media (max-width: 1024px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    #applicant-table td {
+        padding: 8px 5px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Mobile styles (up to 768px) */
+@media (max-width: 768px) {
+    body {
+        background: white;
+        overflow-x: hidden;
+    }
+
+    main {
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        padding: 10px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .container>div:first-child {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        word-break: break-word;
+        padding-left: 10px;
+    }
+
+    h1::before {
+        height: 30px;
+    }
+
+    .btn-container {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn,
+    .pdf-btn {
+        width: 100%;
+        text-align: center;
+        padding: 15px 20px;
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+
+    /* Table restructuring for mobile */
+    #applicant-table {
+        display: block;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    #applicant-table tbody {
+        display: block;
+        width: 100%;
+    }
+
+    #applicant-table tr {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+        border: 1px solid #d1d9e6;
+        border-radius: 10px;
+        padding: 12px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    #applicant-table td {
+        display: block;
+        width: 100% !important;
+        border: none;
+        padding: 8px 5px;
+        text-align: left;
+        box-sizing: border-box;
+        font-size: 0.95rem;
+    }
+
+    /* Special handling for first row (logo and header) */
+    #applicant-table tr:first-child {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        background: linear-gradient(135deg, #1a3e6f, #2c3e50);
+        color: white;
+    }
+
+    #applicant-table tr:first-child td {
+        background: transparent;
+        color: white;
+        padding: 5px 0;
+        text-align: center;
+    }
+
+    #applicant-table tr:first-child td img {
+        margin: 0 auto 10px;
+        max-width: 80px;
+        height: auto;
+    }
+
+    .school-name-header,
+    .school-address,
+    .school-email,
+    .form-number,
+    .form-title {
+        text-align: center !important;
+        font-size: 0.95rem !important;
+    }
+
+    .form-number {
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    /* Photo cell */
+    .photo-td {
+        padding: 15px !important;
+        background: #f8fafd;
+    }
+
+    .photo-wrapper {
+        height: 200px;
+        margin-bottom: 10px;
+    }
+
+    .mobile-file-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d1d9e6;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    /* Section headers */
+    .section-header {
+        background: linear-gradient(135deg, #34495e, #2c3e50) !important;
+        color: white !important;
+        padding: 15px 10px !important;
+        margin: 5px 0 !important;
+        border-radius: 8px !important;
+        font-size: 1.1rem !important;
+        font-weight: bold;
+        text-align: center !important;
+    }
+
+    /* Label cells */
+    .label-cell {
+        font-weight: 600;
+        color: #2c3e50;
+        padding-top: 10px !important;
+        padding-bottom: 5px !important;
+        background-color: transparent !important;
+        border-bottom: 1px dotted #d1d9e6 !important;
+        margin-bottom: 5px;
+    }
+
+    /* Input cells */
+    .input-cell {
+        padding-top: 0 !important;
+        padding-bottom: 10px !important;
+    }
+
+    /* Form inputs */
+    .form-input,
+    .form-select {
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+        padding: 12px 10px;
+        border-radius: 8px;
+        border: 1px solid #b0c0d0;
+        width: 100%;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+
+    /* Radio groups */
+    .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 5px 0;
+    }
+
+    .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        font-size: 1rem;
+        border-bottom: 1px solid #ecf0f1;
+    }
+
+    .radio-group label:last-child {
+        border-bottom: none;
+    }
+
+    .radio-group input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+
+    /* Other input field */
+    .other-input {
+        margin-top: 15px !important;
+    }
+
+    /* Sibling rows */
+    .sibling-row {
+        background: #f8fafd;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        padding: 10px !important;
+    }
+
+    .sibling-row .label-cell {
+        border-bottom: none !important;
+        padding-bottom: 5px !important;
+    }
+
+    .action-cell {
+        text-align: center !important;
+        padding: 15px 0 5px !important;
+    }
+
+    /* Buttons */
+    .add-sibling-btn,
+    .remove-sibling-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .add-sibling-btn {
+        background: linear-gradient(135deg, #27ae60, #229954);
+        color: white;
+        margin: 10px 0;
+    }
+
+    .remove-sibling-btn {
+        background: #e74c3c;
+        color: white;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .add-sibling-btn:active,
+    .remove-sibling-btn:active {
+        transform: scale(0.98);
+    }
+
+    /* Remove hover effects */
+    #applicant-table tbody tr:hover {
+        background-color: white;
+    }
+
+    /* Fix for colspan elements */
+    td[colspan] {
+        width: 100% !important;
+    }
+}
+
+/* Small mobile devices (up to 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 5px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    #applicant-table tr {
+        padding: 8px;
+    }
+
+    .photo-wrapper {
+        height: 160px;
+    }
+
+    .form-input,
+    .form-select {
+        font-size: 15px;
+        padding: 10px 8px;
+    }
+
+    .btn,
+    .pdf-btn {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+
+    .section-header {
+        font-size: 1rem !important;
+        padding: 12px 8px !important;
+    }
+
+    .label-cell {
+        font-size: 0.9rem;
+    }
+
+    .radio-group label {
+        font-size: 0.9rem;
+    }
+
+    .add-sibling-btn,
+    .remove-sibling-btn {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        padding: 10px;
+    }
+
+    .photo-wrapper {
+        height: 140px;
+    }
+
+    .btn-container {
+        flex-direction: row;
+    }
+
+    .radio-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .radio-group label {
+        width: auto;
+        margin-right: 15px;
+        border-bottom: none;
+    }
+
+    #applicant-table tr:first-child {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    #applicant-table tr:first-child td {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+
+    .btn:hover,
+    .pdf-btn:hover {
+        transform: none;
+    }
+
+    .btn:active,
+    .pdf-btn:active {
+        transform: scale(0.98);
+    }
+
+    .form-input,
+    .form-select {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    /* Better touch targets */
+    input[type="radio"] {
+        transform: scale(1.2);
+        margin-right: 8px;
+    }
+
+    .remove-sibling-btn,
+    .add-sibling-btn {
+        min-height: 44px;
+        /* Apple's recommended minimum */
+    }
+}
+
+/* Print styles (optional) */
+@media print {
+
+    .btn-container,
+    .add-sibling-btn,
+    .remove-sibling-btn {
+        display: none;
+    }
+}

@@ -28,13 +28,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 10px;
 }
 
 /* ===== Main Container ===== */
 .login-container {
     display: flex;
     width: 1200px;
-    max-width: 90%;
+    max-width: 100%;
     min-height: 600px;
     background: white;
     border-radius: 15px;
@@ -61,38 +62,42 @@ body {
 
 .logo-container {
     position: absolute;
-    margin: 20px;
+    top: 20px;
+    left: 20px;
+    right: 20px;
     display: flex;
     align-items: center;
     gap: 15px;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     padding: 10px 20px;
     border-radius: 50px;
     box-shadow: var(--shadow-sm);
+    max-width: calc(100% - 40px);
 }
 
 .logo-img {
-    height: 50px;
+    height: 40px;
     width: auto;
+    flex-shrink: 0;
 }
 
 .school-name {
     color: var(--primary-dark);
-    font-size: 1.2em;
+    font-size: 1rem;
     font-weight: 600;
-    text-align: center;
-    letter-spacing: 0.5px;
+    line-height: 1.3;
+    word-break: break-word;
 }
 
 .overlay-text {
     position: absolute;
-    bottom: 160px;
-    left: 30px;
-    right: 30px;
-    background: linear-gradient(135deg, rgba(26, 62, 111, 0.95), rgba(52, 152, 219, 0.95));
+    bottom: 290px;
+    left: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(26, 62, 111, 0.98), rgba(52, 152, 219, 0.98));
     color: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
     backdrop-filter: blur(5px);
     z-index: 2;
@@ -100,10 +105,10 @@ body {
 }
 
 .overlay-text h1 {
-    font-size: 1.8em;
+    font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
     position: relative;
     display: inline-block;
 }
@@ -111,18 +116,18 @@ body {
 .overlay-text h1::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -3px;
     left: 0;
-    width: 50px;
+    width: 40px;
     height: 3px;
     background: white;
     border-radius: 3px;
 }
 
 .overlay-text p {
-    font-size: 1em;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
     opacity: 0.95;
 }
 
@@ -180,6 +185,8 @@ body {
     font-size: 1em;
     transition: var(--transition);
     background-color: var(--gray-light);
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .login-form input:focus {
@@ -193,7 +200,7 @@ body {
 .btn-login,
 .btn-google {
     width: 100%;
-    padding: 12px 25px;
+    padding: 14px 25px;
     border: none;
     border-radius: 8px;
     font-size: 1em;
@@ -206,6 +213,7 @@ body {
     display: inline-block;
     text-align: center;
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .btn-login {
@@ -220,6 +228,10 @@ body {
     box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
 }
 
+.btn-login:active {
+    transform: translateY(0);
+}
+
 .btn-google {
     background: linear-gradient(135deg, var(--success), var(--success-dark));
     color: white;
@@ -229,6 +241,10 @@ body {
     background: linear-gradient(135deg, var(--success-dark), #1e8449);
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
+}
+
+.btn-google:active {
+    transform: translateY(0);
 }
 
 /* ===== Divider ===== */
@@ -268,47 +284,233 @@ body {
     padding: 0 10px;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
+/* ===== Tablet Responsive (768px - 1024px) ===== */
+@media (max-width: 1024px) {
     .login-container {
-        flex-direction: column;
         max-width: 95%;
     }
 
-    .left-side {
-        min-height: 300px;
-    }
-
     .overlay-text {
-        bottom: 20px;
-        left: 20px;
-        right: 20px;
+        bottom: 30px;
         padding: 20px;
     }
 
     .overlay-text h1 {
-        font-size: 1.4em;
+        font-size: 1.3rem;
     }
 
     .overlay-text p {
-        font-size: 0.9em;
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== Mobile Responsive (up to 768px) ===== */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        background: white;
+        align-items: flex-start;
+    }
+
+    .login-container {
+        flex-direction: column;
+        max-width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .left-side {
+        min-height: 350px;
+        max-height: 400px;
     }
 
     .logo-container {
         top: 15px;
         left: 15px;
+        right: 15px;
         padding: 8px 15px;
+        gap: 10px;
+        max-width: calc(100% - 30px);
+    }
+
+    .logo-img {
+        height: 35px;
     }
 
     .school-name {
-        font-size: 1em;
+        font-size: 0.9rem;
+    }
+
+    .overlay-text {
+        bottom: 20px;
+        left: 15px;
+        right: 15px;
+        padding: 18px;
+    }
+
+    .overlay-text h1 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    .overlay-text h1::after {
+        width: 30px;
+        height: 2px;
+    }
+
+    .overlay-text p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        margin-bottom: 10px;
     }
 
     .right-side {
-        padding: 30px 20px;
+        padding: 30px 20px 40px;
     }
 
     .login-form h2 {
-        font-size: 1.6em;
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+        padding-left: 12px;
+    }
+
+    .login-form h2::before {
+        width: 4px;
+        height: 35px;
+    }
+
+    .login-form input {
+        padding: 14px 15px;
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+        margin-bottom: 18px;
+    }
+
+    .btn-login,
+    .btn-google {
+        padding: 16px 25px;
+        font-size: 1rem;
+    }
+
+    .info-text {
+        font-size: 0.85rem;
+        padding: 0 5px;
+    }
+}
+
+/* ===== Small Mobile (up to 480px) ===== */
+@media (max-width: 480px) {
+    .left-side {
+        min-height: 300px;
+        max-height: 350px;
+    }
+
+    .logo-container {
+        padding: 6px 12px;
+    }
+
+    .logo-img {
+        height: 30px;
+    }
+
+    .school-name {
+        font-size: 0.8rem;
+    }
+
+    .overlay-text {
+        padding: 15px;
+    }
+
+    .overlay-text h1 {
+        font-size: 1.1rem;
+    }
+
+    .overlay-text p {
+        font-size: 0.75rem;
+        line-height: 1.3;
+    }
+
+    .right-side {
+        padding: 25px 15px 35px;
+    }
+
+    .login-form h2 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        padding-left: 10px;
+    }
+
+    .login-form h2::before {
+        height: 30px;
+    }
+
+    .login-form label {
+        font-size: 0.9rem;
+    }
+
+    .login-form input {
+        padding: 12px 12px;
+        font-size: 15px;
+    }
+
+    .btn-login,
+    .btn-google {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+
+    .divider {
+        margin: 15px 0;
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== Landscape Mode on Mobile ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+    .left-side {
+        min-height: 250px;
+        max-height: 280px;
+    }
+
+    .overlay-text {
+        bottom: 15px;
+        padding: 12px;
+    }
+
+    .overlay-text p {
+        margin-bottom: 5px;
+    }
+
+    .overlay-text p:last-child {
+        margin-bottom: 0;
+    }
+
+    .right-side {
+        padding: 20px;
+    }
+
+    .login-form {
+        max-width: 500px;
+    }
+}
+
+/* ===== Touch-friendly improvements ===== */
+@media (hover: none) and (pointer: coarse) {
+
+    .btn-login:hover,
+    .btn-google:hover {
+        transform: none;
+    }
+
+    .btn-login:active,
+    .btn-google:active {
+        transform: scale(0.98);
+    }
+
+    input,
+    button,
+    .btn-google {
+        cursor: default;
     }
 }

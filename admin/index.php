@@ -289,7 +289,6 @@ if ($isAjax) {
                 <input type="text" id="searchInput" placeholder="Search by name, email, or contact..." value="<?= htmlspecialchars($search) ?>">
                 <input type="date" id="dateFrom" value="<?= htmlspecialchars($date_from) ?>">
                 <input type="date" id="dateTo" value="<?= htmlspecialchars($date_to) ?>">
-                <button id="clearFilters" class="clear-btn">Clear</button>
             </div>
 
             <!-- Applicants Table -->
