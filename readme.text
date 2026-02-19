@@ -4,8 +4,3 @@ git add .
 git commit -m "ccsfp project finished"
 git push -u origin main
 
-
-MySQL database name: u992785675_ccsfp_db
-MySQL username: u992785675_ccsfp_user
-Password: *Q8ut2@W>jp
-

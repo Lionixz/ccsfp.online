@@ -3,6 +3,12 @@ require __DIR__ . '/../config/config.php';
 require __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../handlers/google_auth.php';
 
+// --- CSRF protection for Google OAuth ---
+$state = bin2hex(random_bytes(16));
+$_SESSION['google_auth_state'] = $state;
+$client->setState($state);
+// ---
+
 // Google login URL
 $loginUrl = $client->createAuthUrl();
 ?>
@@ -66,7 +72,6 @@ $loginUrl = $client->createAuthUrl();
             </div>
         </div>
     </div>
-    <script src="js/login.index.js"></script>
 </body>
 
 </html>
