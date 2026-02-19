@@ -179,7 +179,7 @@ $sibling_educations = json_decode($applicant['sibling_educations'], true) ?? [];
 $sibling_occupations = json_decode($applicant['sibling_occupations'], true) ?? [];
 
 // For file upload preview
-$uploadBaseUrl = '/ccsfp/public/images/uploads/';
+$uploadBaseUrl = '../public/images/uploads/';
 $hasPhoto = !empty($applicant['photo']);
 
 $courses = [

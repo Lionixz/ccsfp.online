@@ -1,3 +1,6 @@
+
+
+
 <?php
 require __DIR__ . '/../config/config.php';
 require __DIR__ . '/../config/db.php';
@@ -72,6 +75,8 @@ $loginUrl = $client->createAuthUrl();
             </div>
         </div>
     </div>
+  <script src="../public/js/login_index.js"></script>
 </body>
 
 </html>
+
