@@ -1,0 +1,13 @@
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    google_id VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    picture VARCHAR(500),
+    role VARCHAR(50) NOT NULL DEFAULT 'user',
+    session_token VARCHAR(255) DEFAULT NULL,
+    last_seen DATETIME DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
